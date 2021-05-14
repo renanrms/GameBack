@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link} from 'react-router-dom'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
@@ -8,10 +9,12 @@ import Person from './assets/person.svg'
 function Header({projectPath}) {
     return (
         <Navbar bg="light" expand="lg" className={Styles.navbar}>
-            <Navbar.Brand href="home">GameBack</Navbar.Brand>
+            <Link to="/">
+                <Navbar.Brand>GameBack</Navbar.Brand>
+            </Link>
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
-                    <Nav.Link href="home">Meu Projeto</Nav.Link>
+                    <Nav.Link href={projectPath}>Meu Projeto</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
             <NavDropdown title={ <img src={Person} alt=""/> } id="basic-nav-dropdown">
