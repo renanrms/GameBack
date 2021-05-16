@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from "react-router-dom";
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,6 +10,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import * as urls from '../constants/Urls';
 
 function Copyright() {
   return (
@@ -56,7 +56,7 @@ export default function Signin(props) {
     event.preventDefault();
     const body = JSON.stringify({ login, password });
     console.log(body)
-    return history.push("/dashboard");
+    return history.push(urls.DASHBOARD);
   }
 
 

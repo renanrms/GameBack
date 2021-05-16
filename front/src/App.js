@@ -8,6 +8,8 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import * as urls from './constants/Urls';
+
 
 const NavRoute = ({exact, path, component: Component}) => (
   <Route exact={exact} path={path} render={(props) => (
@@ -24,10 +26,10 @@ function App() {
     <>
       <Router>
         <Switch>
-          <Route path="/signin">
+          <Route path={urls.SIGNIN}>
             <Signin />
           </Route>
-          <Route path="/dashboard" component={Dashboard}/>
+          <Route path={urls.DASHBOARD} component={Dashboard}/>
         </Switch>
       </Router>
     </>
