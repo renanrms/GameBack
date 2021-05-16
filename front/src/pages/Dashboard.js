@@ -19,8 +19,15 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import PersonIcon from '@material-ui/icons/Person';
-import { mainListItems, secondaryListItems } from './listItems';
+import MenuItems from '../components/MenuItems';
 import DataTable from '../components/DataTable'
+import Rules from '../components/Rules';
+import Items from '../components/Items';
+import Events from '../components/Events';
+import Players from '../components/Players';
+import Statistics from '../components/Statistics';
+import * as options from '../constants/MenuOptions';
+
 
 const drawerWidth = 240;
 
@@ -105,6 +112,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
+  const [content, setContent] = React.useState(0);
   const [open, setOpen] = React.useState(true);
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -112,7 +120,45 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  const renderContent = () => {
+    switch (content) {
+      case options.RULES:
+        return (
+          <Rules/>
+        )
+        break;
+      case options.EVENTS:
+        return (
+          <Events/>
+        )
+        break;
+      case options.ITEMS:
+        return (
+          <Items/>
+        )
+        break;
+      case options.PLAYERS:
+        return (
+          <Grid container spacing={3}>
+            {/* Datatable Example */}
+            <Grid item xs={12}>
+              <Paper className={classes.paper}>
+                <DataTable />
+              </Paper>
+            </Grid>
+          </Grid>
+        )
+        break;
+      case options.STATISTICS:
+        return (
+          <Statistics/>
+        )
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <div className={classes.root}>
@@ -154,19 +200,14 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
+        <MenuItems
+          updateContent={setContent}
+        />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            {/* Datatable Example */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <DataTable />
-              </Paper>
-            </Grid>
-          </Grid>
+          {renderContent()}
         </Container>
       </main>
     </div>
