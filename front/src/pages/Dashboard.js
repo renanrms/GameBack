@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -18,7 +18,7 @@ import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import PersonIcon from '@material-ui/icons/Person';
+import * as options from '../constants/MenuOptions';
 import MenuItems from '../components/MenuItems';
 import DataTable from '../components/DataTable'
 import Rules from '../components/Rules';
@@ -26,11 +26,9 @@ import Items from '../components/Items';
 import Events from '../components/Events';
 import Players from '../components/Players';
 import Statistics from '../components/Statistics';
-import * as options from '../constants/MenuOptions';
-
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
-
+import States from '../components/States'
+import Chart from '../components/Chart';
+import NavPanelButton from '../components/NavPanelButton'
 
 const drawerWidth = 240;
 
@@ -117,18 +115,6 @@ export default function Dashboard() {
   const classes = useStyles();
   const [content, setContent] = React.useState(0);
   const [open, setOpen] = React.useState(true);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const openIconMenu = Boolean(anchorEl);
-
-  const handleMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -154,6 +140,11 @@ export default function Dashboard() {
           <Items/>
         )
         break;
+      case options.STATES:
+        return (
+          <States/>
+        )
+        break;
       case options.PLAYERS:
         return (
           <Grid container spacing={3}>
@@ -168,7 +159,14 @@ export default function Dashboard() {
         break;
       case options.STATISTICS:
         return (
-          <Statistics/>
+          <Grid container spacing={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={clsx(classes.paper, classes.fixedHeight)}>
+                <Chart />
+              </Paper>
+            </Grid>
+          </Grid>
         )
         break;
       default:
@@ -190,38 +188,18 @@ export default function Dashboard() {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             GameBack
           </Typography>
+
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton
-            onClick={handleMenu}
-            color="inherit">
-            <PersonIcon />
-          </IconButton>
 
-          <Menu
-            id="menu-appbar"
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            keepMounted
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'right',
-            }}
-            open={openIconMenu}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={handleClose}>Perfil</MenuItem>
-            <MenuItem onClick={handleClose}>Logout</MenuItem>
-          </Menu>
+          <NavPanelButton/>
 
         </Toolbar>
       </AppBar>

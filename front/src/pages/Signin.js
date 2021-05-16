@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
-  },
+  }
 }));
 
 export default function Signin(props) {
@@ -55,10 +55,8 @@ export default function Signin(props) {
   function handleSubmit(event) {
     event.preventDefault();
     const body = JSON.stringify({ login, password });
-    console.log(body)
     return history.push(urls.DASHBOARD);
   }
-
 
   return (
     <Container component="main" maxWidth="xs">
