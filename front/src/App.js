@@ -1,7 +1,6 @@
 import Dashboard from './pages/Dashboard'
 import Signin from './pages/Signin'
 import Profile from './pages/Profile'
-import 'bootstrap/dist/css/bootstrap.min.css';
 import Nav from './components/Nav';
 import {
   BrowserRouter as Router,
