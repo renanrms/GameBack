@@ -1,6 +1,7 @@
 import Dashboard from './pages/Dashboard'
-import Login from './pages/Login'
+import Signin from './pages/Signin'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Nav from './components/Nav';
 import {
   BrowserRouter as Router,
   Switch,
@@ -8,18 +9,25 @@ import {
   Link
 } from "react-router-dom";
 
+const NavRoute = ({exact, path, component: Component}) => (
+  <Route exact={exact} path={path} render={(props) => (
+    <div>
+      <Nav/>
+      <Component {...props}/>
+    </div>
+  )}/>
+)
+
 
 function App() {
   return (
     <>
       <Router>
         <Switch>
-          <Route path="/login">
-            <Login />
+          <Route path="/signin">
+            <Signin />
           </Route>
-          <Route path="/dashboard">
-            <Dashboard />
-          </Route>
+          <Route path="/dashboard" component={Dashboard}/>
         </Switch>
       </Router>
     </>
