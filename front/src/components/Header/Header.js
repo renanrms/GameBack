@@ -4,7 +4,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import NavDropdown from 'react-bootstrap/NavDropdown'
 import Styles from './header.module.css'
-import Person from './assets/person.svg'
+import Person from '../assets/person.svg'
 
 function Header({projectPath}) {
     return (
@@ -24,8 +24,8 @@ function Header({projectPath}) {
                 <NavDropdown.Item href="logout">Sair</NavDropdown.Item>
             </NavDropdown>
             <div ></div>
-        </Navbar>        
+        </Navbar>
     );
   }
-  
+
 export default Header;
