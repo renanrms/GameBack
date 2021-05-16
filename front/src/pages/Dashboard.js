@@ -28,6 +28,9 @@ import Players from '../components/Players';
 import Statistics from '../components/Statistics';
 import * as options from '../constants/MenuOptions';
 
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
+
 
 const drawerWidth = 240;
 
@@ -114,6 +117,19 @@ export default function Dashboard() {
   const classes = useStyles();
   const [content, setContent] = React.useState(0);
   const [open, setOpen] = React.useState(true);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openIconMenu = Boolean(anchorEl);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -182,9 +198,31 @@ export default function Dashboard() {
               <NotificationsIcon />
             </Badge>
           </IconButton>
-          <IconButton color="inherit">
+          <IconButton
+            onClick={handleMenu}
+            color="inherit">
             <PersonIcon />
           </IconButton>
+
+          <Menu
+            id="menu-appbar"
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            keepMounted
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'right',
+            }}
+            open={openIconMenu}
+            onClose={handleClose}
+          >
+            <MenuItem onClick={handleClose}>Perfil</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
+          </Menu>
+
         </Toolbar>
       </AppBar>
       <Drawer
