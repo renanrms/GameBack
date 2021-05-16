@@ -6,6 +6,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import DashboardIcon from '@material-ui/icons/Dashboard';
+import EventIcon from '@material-ui/icons/Event';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import PeopleIcon from '@material-ui/icons/People';
 import BarChartIcon from '@material-ui/icons/BarChart';
@@ -29,23 +30,30 @@ function MenuItems({ updateContent }) {
 
       <ListItem button onClick={() => (updateContent(options.EVENTS))}>
         <ListItemIcon>
-          <LayersIcon />
+          <EventIcon />
         </ListItemIcon>
         <ListItemText primary="Eventos" />
       </ListItem>
 
-      <ListItem button onClick={() => (updateContent(options.ITEMS))}>
+      {/* <ListItem button onClick={() => (updateContent(options.ITEMS))}>
         <ListItemIcon>
           <ShoppingCartIcon />
         </ListItemIcon>
         <ListItemText primary="Itens" />
-      </ListItem>
+      </ListItem> */}
 
       <ListItem button onClick={() => (updateContent(options.PLAYERS))}>
         <ListItemIcon>
           <PeopleIcon />
         </ListItemIcon>
         <ListItemText primary="Jogadores" />
+      </ListItem>
+
+      <ListItem button onClick={() => (updateContent(options.STATES))}>
+        <ListItemIcon>
+          <LayersIcon />
+        </ListItemIcon>
+        <ListItemText primary="Estados" />
       </ListItem>
 
       <ListItem button onClick={() => (updateContent(options.STATISTICS))}>
