@@ -1,43 +1,43 @@
-import { authPlayer } from "./authApi";
+import { post } from "./apiWeb/post";
+import { get } from "./apiWeb/get";
 
-
-//criar conta
+// Função para criar conta.
 function register(username, password, state) {
-
+  post({username, password, state}, '/player/register')
+    .then(data => {
+      return data; // Melhor analisar o conteúdo de data para retornar a parte necessária!
+    });
 }
 
+// Classe para autenticação e todas as operações do player.
 class Player {
   constructor(username, password) {
     this.state = {
       token: null,
-      error: null,
       authenticated: false
     }
-    authPlayer(username, password)
+    this.username = null;
+
+    post({username, password}, '/player/login')
       .then(data => {
         this.state.token = data["X-Auth-Token"];
         this.state.authenticated = true;
+        this.username = username;
       })
-      .catch(error => {
-        console.error(error.message);
-        this.state.error = error.message;
-      });
   }
 
-  //atualizar pontuação
-  updateState(state) {
-
-  }
-  //obter status
   getState() {
-
+    data = get('/player/getState', this.token);
+    return data["state"];
   }
 
-  changePassword(newPassword) {
-
+  getPlayer() {
+    data = get('/player/getPlayer', this.token);
+    return data;
   }
 
-  changeUsername(newUsername) {
-    
+  executeEvent(route, data) {
+    post({route, data}, '/events', this.state.token);
   }
+  
 }
