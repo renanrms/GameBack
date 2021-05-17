@@ -1,17 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import RuleCard from './RuleCard';
 import { makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import NewRuleDialog from './NewRuleDialog';
+import { listRules } from '../api/rules'
 
-const data = {
-  title: "Exemplo de regra",
-  date: "15/05/2020",
-  content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
+const array = [
+  {
+    title: "Exemplo de regra 1",
+    date: "15/05/2020",
+    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
             Fusce mauris ante, dignissim vitae vehicula id, viverra at orci.
             Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
-}
-const array = [1,2,3,4,5]
+  }, {
+    title: "Exemplo de regra 2",
+    date: "15/05/2020",
+    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
+              Fusce mauris ante, dignissim vitae vehicula id, viverra at orci.
+              Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
+  }, {
+  title: "Exemplo de regra 3",
+  date: "15/05/2020",
+  content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
+              Fusce mauris ante, dignissim vitae vehicula id, viverra at orci.
+              Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
+  }, {
+  title: "Exemplo de regra 4",
+  date: "15/05/2020",
+  content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
+              Fusce mauris ante, dignissim vitae vehicula id, viverra at orci.
+              Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
+  }, {
+    title: "Exemplo de regra 5",
+    date: "15/05/2020",
+    content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis commodo vel lacus in dictum.
+              Fusce mauris ante, dignissim vitae vehicula id, viverra at orci.
+              Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
+  }
+]
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -23,17 +49,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Rules() {
 
+const [rules, setRules] = useState([]);
+
+  useEffect(() => {
+    listRules()
+    .then(response => {
+      //TODO: setRules(response);
+      setRules(array)
+    })
+  }, []);
+
   const classes = useStyles();
 
   const renderCardList = () => {
     return (
       <GridList>
-        {array.map(
-          ({ name, key }) => (
-              <RuleCard
-              title={data.title}
-              date={data.date}
-              content={data.content}
+        {rules.map(
+          (rule, index) => (
+            <RuleCard
+              key={index}
+              title={rule.title}
+              date={rule.date}
+              content={rule.content}
             />
           )
         )}
