@@ -41,19 +41,19 @@ function MenuItems({ updateContent }) {
         <ListItemText primary="Itens" />
       </ListItem> */}
 
-      <ListItem button onClick={() => (updateContent(options.PLAYERS))}>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Jogadores" />
-      </ListItem>
-
       <ListItem button onClick={() => (updateContent(options.STATES))}>
         <ListItemIcon>
           <LayersIcon />
         </ListItemIcon>
         <ListItemText primary="Estados" />
       </ListItem>
+
+      {/* <ListItem button onClick={() => (updateContent(options.PLAYERS))}>
+        <ListItemIcon>
+          <PeopleIcon />
+        </ListItemIcon>
+        <ListItemText primary="Jogadores" />
+      </ListItem> */}
 
       <ListItem button onClick={() => (updateContent(options.STATISTICS))}>
         <ListItemIcon>
