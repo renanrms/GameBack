@@ -14,11 +14,11 @@ function createData(id, name, date, score) {
 }
 
 const rows = [
-  createData(0, 'Elvis Presley', '16 Mar, 2019', 312.44),
-  createData(1, 'Paul McCartney', '16 Mar, 2019', 866.99),
-  createData(2, 'Tom Scholz', '16 Mar, 2019', 100.81),
-  createData(3, 'Michael Jackson', '16 Mar, 2019', 654.39),
-  createData(4, 'Bruce Springsteen', '15 Mar, 2019', 212.79),
+  createData(0, 'Player 1', '16 Mar, 2019', 312.44),
+  createData(1, 'Player 2', '16 Mar, 2019', 866.99),
+  createData(2, 'Player 3', '16 Mar, 2019', 100.81),
+  createData(3, 'Player 4', '16 Mar, 2019', 654.39),
+  createData(4, 'Player 5', '15 Mar, 2019', 212.79),
 ];
 
 function preventDefault(event) {
