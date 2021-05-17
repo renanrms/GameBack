@@ -14,7 +14,7 @@ app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 3001;
 
-app.listen(port, async () => {    
+app.listen(port, async () => {
     console.log(`App listening at http://localhost:${port}`)
 })
 
@@ -34,6 +34,16 @@ app.post('/admin/login', async (req, res) => {
         return  res.json({})
     }
 
+})
+
+//Admin signup
+app.post('/admin/signup', async (req, res) => {
+
+  const username = req.body.username;
+  const password = req.body.password;
+
+  let result = await AdminTable.createAdmin(username, password)
+  return res.json({ "result": result })
 })
 
 
