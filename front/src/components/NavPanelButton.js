@@ -9,6 +9,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PersonIcon from '@material-ui/icons/Person';
 import * as urls from '../constants/Urls';
 
+import { dispatchLogout } from '../api/auth'
+
 
 export default function NavPanelButton() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -31,6 +33,7 @@ export default function NavPanelButton() {
 
   const handleLogout = () => {
     setAnchorEl(null);
+    dispatchLogout()
     return history.push(urls.SIGNIN);
   }
 

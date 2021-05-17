@@ -1,3 +1,4 @@
+import React from 'react';
 import Dashboard from './pages/Dashboard'
 import Signin from './pages/Signin'
 import Profile from './pages/Profile'
@@ -6,9 +7,12 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import * as urls from './constants/Urls';
+import { isAuthenticated } from './api/auth';
+
 
 const NavRoute = ({exact, path, component: Component}) => (
   <Route exact={exact} path={path} render={(props) => (
@@ -19,6 +23,18 @@ const NavRoute = ({exact, path, component: Component}) => (
   )}/>
 )
 
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      isAuthenticated() ? (
+        <Component {...props} />
+      ) : (
+          <Redirect to={{ pathname: urls.SIGNIN, state: { from: props.location } }} />
+      )
+    }
+  />
+);
 
 function App() {
   return (
@@ -27,8 +43,8 @@ function App() {
         <Switch>
           <Route path={urls.HOME} component={Signin} exact={true}/>
           <Route path={urls.SIGNIN} component={Signin} exact={true}/>
-          <Route path={urls.DASHBOARD} component={Dashboard} exact={true}/>
-          <Route path={urls.PROFILE} component={Profile} exact={true}/>
+          <PrivateRoute auth={true} path={urls.DASHBOARD} component={Dashboard} exact={true}/>
+          <PrivateRoute path={urls.PROFILE} component={Profile} exact={true}/>
         </Switch>
       </Router>
     </>

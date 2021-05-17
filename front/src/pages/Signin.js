@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as urls from '../constants/Urls';
+import { loginAdmin, dispatchLogin } from '../api/auth';
 
 function Copyright() {
   return (
@@ -48,14 +49,26 @@ const useStyles = makeStyles((theme) => ({
 export default function Signin(props) {
   const classes = useStyles();
 
-  const [login, setLogin] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const history = useHistory();
 
   function handleSubmit(event) {
     event.preventDefault();
-    const body = JSON.stringify({ login, password });
+
+    loginAdmin(username, password);
+    const response = {
+      data: {
+        token: "mock_token"
+      }
+    }
+    dispatchLogin(response.data.token);
+
     return history.push(urls.DASHBOARD);
+  }
+
+  function validateForm() {
+    return username.length > 0 && password.length > 0;
   }
 
   return (
@@ -74,11 +87,11 @@ export default function Signin(props) {
             margin="normal"
             required
             fullWidth
-            id="login"
+            id="username"
             label="Nome de usuário"
-            name="login"
-            value={login}
-            onChange={(event) => { setLogin(event.target.value) }}
+            name="username"
+            value={username}
+            onChange={(event) => { setUsername(event.target.value) }}
             autoFocus
           />
           <TextField
@@ -100,6 +113,7 @@ export default function Signin(props) {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={!validateForm()}
           >
             Entrar
           </Button>
