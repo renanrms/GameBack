@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -10,6 +10,9 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import DeleteIcon from '@material-ui/icons/Delete';
+import EditRuleDialog from './EditRuleDialog'
+import DeleteRuleDialog from './DeleteRuleDialog'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,7 +43,28 @@ const useStyles = makeStyles((theme) => ({
 function RuleCard({title, date, content}) {
   const classes = useStyles();
 
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+  const [isOpenEditDialog, setIsOpenEditDialog] = useState(false);
+
+  const handleOpenDeleteRuleDialog = () => {
+    setIsOpenDeleteDialog(true)
+  }
+
+  const handleCloseDeleteRuleDialog = () => {
+    setIsOpenDeleteDialog(false)
+  }
+
+  const handleOpenEditRuleDialog = () => {
+    console.log("clickou no edit")
+    setIsOpenEditDialog(true)
+  }
+
+  const handleCloseEditRuleDialog = () => {
+    setIsOpenEditDialog(false)
+  }
+
   return (
+    <>
     <Card className={classes.root}>
       <CardHeader
         avatar={
@@ -49,9 +73,14 @@ function RuleCard({title, date, content}) {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-label="settings" onClick={handleOpenDeleteRuleDialog}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton aria-label="settings" onClick={handleOpenEditRuleDialog}>
+              <MoreVertIcon />
+            </IconButton>
+          </>
         }
         title={title}
         subheader={date}
@@ -64,6 +93,16 @@ function RuleCard({title, date, content}) {
       <CardActions disableSpacing>
       </CardActions>
     </Card>
+    <DeleteRuleDialog
+      open={isOpenDeleteDialog}
+      handleClose={handleCloseDeleteRuleDialog}
+      title={title}
+    />
+    <EditRuleDialog
+      open={isOpenEditDialog}
+      handleClose={handleCloseEditRuleDialog}
+    />
+    </>
   );
 }
 

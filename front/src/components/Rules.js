@@ -1,12 +1,8 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import RuleCard from './RuleCard';
-
 import { makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
-import IconButton from '@material-ui/core/IconButton';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';
+import NewRuleDialog from './NewRuleDialog';
 
 const data = {
   title: "Exemplo de regra",
@@ -16,7 +12,6 @@ const data = {
             Nullam erat magna, feugiat et metus id, egestas aliquam ligula. `
 }
 const array = [1,2,3,4,5]
-
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -48,14 +43,7 @@ export default function Rules() {
   return (
     <>
       <h1 style={{textAlign: 'center'}}>Regras</h1>
-      <Button
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        startIcon={<AddIcon />}
-      >
-        Adicionar nova Regra
-      </Button>
+      <NewRuleDialog />
       {renderCardList()}
     </>
   );
