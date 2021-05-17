@@ -12,16 +12,13 @@ date = {
 class ManagerStatistics {
 
     static async update(){
-        console.log(date)
         let achou = await StatisticsTable.returnOneStatistics(date)
         if (achou != null)
         {
-            console.log('a')
             let value = achou['value']
             StatisticsTable.updateOneStatistics(date,value+1)
         }
         else{
-            console.log('b')
             StatisticsTable.registerStatistic(date,1)
         }
         return true
@@ -39,13 +36,10 @@ class ManagerStatistics {
             {
                 value = today['value']
             }
-            //
             
             week[count] = {...aux,...{'nlog':value}}
             aux = oneLessDay(aux)
         }
-
-        console.log(week)
 
         return week    
     }
