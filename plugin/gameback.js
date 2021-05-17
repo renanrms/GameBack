@@ -32,4 +32,12 @@ class Player {
   getState() {
 
   }
+
+  changePassword(newPassword) {
+
+  }
+
+  changeUsername(newUsername) {
+    
+  }
 }
