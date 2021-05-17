@@ -1,37 +1,23 @@
 const express = require('express');
-var jwt = require('jsonwebtoken');
 var cors = require('cors');
-const crypto = require('crypto');
 const PlayersTable = require('./mongodb/player');
 const AdminTable = require('./mongodb/admin');
 const RulesTable = require('./mongodb/rules');
-const { ok } = require('assert');
-
-
-const SIGN_SECRET = process.env.SIGN_SECRET || crypto.randomBytes(127).toString('hex');
-
-
+const EventsTable = require('./mongodb/events');
+const eventList = require('./events/actionsList')
+const StatisticsTable = require('./mongodb/statistics.js')
+const ManagerStatistics = require('./mongodb/statistics.js')
+const {checkToken,generateToken} = require('./auth/auth.js')
 
 const app = express();
 app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded());
-
 const port = process.env.PORT || 3000;
 
-function requireAuth(jwtToken,role="admin") {
-    try {
-        var decoded = jwt.verify(jwtToken, SIGN_SECRET);
-        return decoded.role==role
-        
-    } catch (err) {
-        return false;
-    }
-}
 
 
 //check if admin username and password are ok
-app.post('/login', async (req, res) => {
+app.post('/admin/login', async (req, res) => {
 
     const username = req.body.username;
     const password = req.body.password;
@@ -39,9 +25,7 @@ app.post('/login', async (req, res) => {
     let loginOk=await AdminTable.loginAdmin(username,password)
 
     if (loginOk){
-        
-        return res.json({"token":jwt.sign({ role: 'admin' }, SIGN_SECRET)})
-
+        return res.json(generateToken(username,"admin"))
     }
     else{
         res.statusCode = 403;
@@ -49,6 +33,71 @@ app.post('/login', async (req, res) => {
     }
 
 })
+
+
+//----------------------------PLAYER----------------------
+
+
+
+
+//check if username and password are ok
+app.post('/player/login', async (req, res) => {
+
+    const username = req.body.username;
+    const password = req.body.password;
+
+    let loginOk=await PlayersTable.login(username,password)
+
+    if (loginOk){
+        return res.json(generateToken(username,"player"))
+    }
+    else{
+        res.statusCode = 403;
+        return  res.json({})
+    }
+
+})
+
+//check if admin username and password are ok
+app.post('/player/register', async (req, res) => {
+
+    const username = req.body.username;
+    const password = req.body.password;
+    const state = req.body.state || {};
+    const inventory = req.body.inventory || {};
+
+    let result = {status:"ok"};
+    try {
+        result.user = await PlayersTable.register(username,password,state,inventory)
+
+    } catch (error) {
+        res.statusCode=400
+        result.status=error
+    }
+
+    return res.json(result)
+
+})
+
+app.get('/player/getData', async (req, res) => {
+
+    const username = req.query.username;
+    let result = await PlayersTable.getData(username)
+    return res.json(result)
+
+})
+
+
+
+
+
+
+
+
+
+
+
+//----------------------------RULES----------------------
 
 
 //list all rules created
@@ -93,6 +142,134 @@ app.post('/rules/deleteOneRule', async (req, res) => {
     return  res.json(rules)
 })
 
+
+
+
+
+
+//----------------------------STATISTICS----------------------
+
+
+app.post('/statistics/update', async (req, res) => {
+    let run= await ManagerStatistics.update()
+    return  res.json(run)
+})
+
+app.post('/statistics/get', async (req, res) => {
+    let run= await ManagerStatistics.list()
+    return  res.json(run)
+})
+
+//list all statistics created
+app.get('/statistics/returnAllStatistics', async (req, res) => {
+
+    let statistics=await StatisticsTable.returnAllStatistics()
+    return  res.json(statistics)
+})
+
+
+app.post('/statistics/registerStatistic', async (req, res) => {
+
+    const dateName = req.body.date;
+    const ValueName = req.body.value;
+    let statistics=await StatisticsTable.registerStatistic(dateName,ValueName)
+    return  res.json({result:statistics})
+})
+
+
+app.get('/statistics/returnOneStatistic', async (req, res) => {
+
+    const dateName = req.query.date;
+    console.log("searching for name",dateName)
+    let statistics=await StatisticsTable.returnOneStatistics(dateName)
+    return  res.json(statistics)
+})
+
+app.post('/statistics/updateOneStatistic', async (req, res) => {
+
+    const dateBefore = req.body.date;
+    const valueAfter = req.body.value;
+
+    let statistics=await StatisticsTable.updateOneStatistics(dateBefore,valueAfter)
+    return  res.json(statistics)
+})
+
+
+app.post('/statistics/deleteOneStatistic', async (req, res) => {
+
+    const dateName = req.body.date;
+    let statistics=await StatisticsTable.deleteOneStatistics(dateName)
+    return  res.json(statistics)
+})
+
 app.listen(port, async () => {    
     console.log(`App listening at http://localhost:${port}`)
+})
+
+
+
+
+
+
+
+
+//----------------------------Events----------------------
+
+app.get('/events/getAllEvents', async (req, res) => {
+
+    let events=await EventsTable.returnAllRules()
+    return  res.json(events)
+})
+
+
+app.post('/events/addEvent', async (req, res) => {
+
+    const route = req.body.route;
+    const eventName = req.body.eventName;
+    let result=await EventsTable.addEvent(route,eventName)
+    return  res.json({"result":result})
+})
+
+
+app.get('/events/getOneEvent', async (req, res) => {
+
+    const route = req.query.route;
+    let event=await EventsTable.getOneEvent(route)
+    return  res.json(event)
+})
+
+app.post('/events/updateOneEvent', async (req, res) => {
+
+    const route = req.body.route;
+    const eventName = req.body.eventName;
+
+    let event=await EventsTable.updateOneEvent(route,eventName)
+    return  res.json(event)
+})
+
+
+app.post('/events/getAviables', async (req, res) => {
+    return res.json(eventList)
+})
+
+
+
+app.post('/events', async (req, res) => {
+
+    const route = req.body.route
+    const authToken = req.header('X-Auth-Token')
+    const check = checkToken(authToken)
+    if (!check.isOk){
+        res.statusCode=403
+        return res.json({})
+    }
+
+    let response ={}
+    if (route in eventList){
+        response = eventList.route(check.username,req.body)
+    }
+    else{
+        res.statusCode=404
+    }
+    return  res.json(response)
 })
