@@ -14,7 +14,9 @@ app.use(cors());
 app.use(express.json());
 const port = process.env.PORT || 3001;
 
-
+app.listen(port, async () => {    
+    console.log(`App listening at http://localhost:${port}`)
+})
 
 //check if admin username and password are ok
 app.post('/admin/login', async (req, res) => {
@@ -201,10 +203,6 @@ app.post('/statistics/deleteOneStatistic', async (req, res) => {
     const dateName = req.body.date;
     let statistics=await StatisticsTable.deleteOneStatistics(dateName)
     return  res.json(statistics)
-})
-
-app.listen(port, async () => {    
-    console.log(`App listening at http://localhost:${port}`)
 })
 
 
