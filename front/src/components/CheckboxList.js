@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CheckboxList() {
+export default function CheckboxList({data}) {
   const classes = useStyles();
   const [checked, setChecked] = React.useState([0]);
 
@@ -35,7 +35,7 @@ export default function CheckboxList() {
 
   return (
     <List className={classes.root}>
-      {[0, 1, 2, 3].map((value) => {
+      {data.map((value) => {
         const labelId = `checkbox-list-label-${value}`;
 
         return (
@@ -49,11 +49,11 @@ export default function CheckboxList() {
                 inputProps={{ 'aria-labelledby': labelId }}
               />
             </ListItemIcon>
-            <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
+            <ListItemText id={labelId} primary={`${value}`} />
             <ListItemSecondaryAction>
-              <IconButton edge="end" aria-label="comments">
+              {/* <IconButton edge="end" aria-label="comments">
                 <EditIcon />
-              </IconButton>
+              </IconButton> */}
             </ListItemSecondaryAction>
           </ListItem>
         );

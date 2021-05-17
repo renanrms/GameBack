@@ -3,11 +3,15 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckboxList from './CheckboxList'
-
-
 import {
   ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography
 } from '@material-ui/core';
+
+const mockData = {
+  race: ['Humano', 'Elfo', 'Orc', 'Anão'],
+  class: ['Guerreiro', 'Paladino', 'Mago', 'Druida'],
+  profession: ['Lenhador', 'Minerador', 'Pescador']
+}
 
 const styles = theme => ({
   root: {
@@ -28,7 +32,9 @@ function SimpleAccordion(props) {
           <Typography className={classes.heading}>Raças</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <CheckboxList/>
+          <CheckboxList
+            data={mockData.race}
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
       <ExpansionPanel>
@@ -36,7 +42,9 @@ function SimpleAccordion(props) {
           <Typography className={classes.heading}>Classes</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <CheckboxList/>
+          <CheckboxList
+            data={mockData.class}
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
       <ExpansionPanel>
@@ -44,7 +52,9 @@ function SimpleAccordion(props) {
           <Typography className={classes.heading}>Profissões</Typography>
         </ExpansionPanelSummary>
         <ExpansionPanelDetails>
-          <CheckboxList />
+          <CheckboxList
+            data={mockData.profession}
+          />
         </ExpansionPanelDetails>
       </ExpansionPanel>
       {/* <ExpansionPanel disabled>

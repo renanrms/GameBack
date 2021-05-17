@@ -1,7 +1,7 @@
 import { makeUrl, serverUrl } from './common';
 
-export const listRules = async function () {
-  const url = makeUrl(serverUrl, '/rules/returnAllRules')
+export const listEvents = async function () {
+  const url = makeUrl(serverUrl, '/event/returnAllEvents')
   console.log(url)
 
   return fetch(url, {
@@ -16,8 +16,8 @@ export const listRules = async function () {
     })
 }
 
-export const getRule = async function () {
-  const url = makeUrl(serverUrl, '/rules/returnOneRule')
+export const getEvent = async function () {
+  const url = makeUrl(serverUrl, '/event/returnOneEvent')
   console.log(url)
 
   return fetch(url, {
@@ -32,8 +32,8 @@ export const getRule = async function () {
     })
 }
 
-export const createRule = async function (name, rule) {
-  const url = makeUrl(serverUrl, '/rules/registerRule')
+export const createEvent = async function (route, eventName) {
+  const url = makeUrl(serverUrl, '/event/registerEvent')
   console.log(url)
 
   return fetch(url, {
@@ -49,8 +49,8 @@ export const createRule = async function (name, rule) {
     })
 }
 
-export const updateRule = async function (name, rule) {
-  const url = makeUrl(serverUrl, '/rules/updateOneRule')
+export const updateEvent = async function (route, eventName) {
+  const url = makeUrl(serverUrl, '/event/updateOneEvent')
   console.log(url)
 
   return fetch(url, {
@@ -66,8 +66,8 @@ export const updateRule = async function (name, rule) {
     })
 }
 
-export const deleteRule = async function (name) {
-  const url = makeUrl(serverUrl, '/rules/deleteOneRule')
+export const deleteEvent = async function (route) {
+  const url = makeUrl(serverUrl, '/event/deleteOneEvent')
   console.log(url)
 
   return fetch(url, {

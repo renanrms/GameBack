@@ -1,7 +1,7 @@
 import { makeUrl, serverUrl } from './common';
 
-export const listRules = async function () {
-  const url = makeUrl(serverUrl, '/rules/returnAllRules')
+export const listStates = async function () {
+  const url = makeUrl(serverUrl, '/state/returnAllStates')
   console.log(url)
 
   return fetch(url, {
@@ -16,8 +16,8 @@ export const listRules = async function () {
     })
 }
 
-export const getRule = async function () {
-  const url = makeUrl(serverUrl, '/rules/returnOneRule')
+export const getState = async function () {
+  const url = makeUrl(serverUrl, '/state/returnOneState')
   console.log(url)
 
   return fetch(url, {
@@ -32,8 +32,8 @@ export const getRule = async function () {
     })
 }
 
-export const createRule = async function (name, rule) {
-  const url = makeUrl(serverUrl, '/rules/registerRule')
+export const createState = async function (name, rule) {
+  const url = makeUrl(serverUrl, '/state/registerState')
   console.log(url)
 
   return fetch(url, {
@@ -49,8 +49,8 @@ export const createRule = async function (name, rule) {
     })
 }
 
-export const updateRule = async function (name, rule) {
-  const url = makeUrl(serverUrl, '/rules/updateOneRule')
+export const updateState = async function (name, rule) {
+  const url = makeUrl(serverUrl, '/state/updateOneState')
   console.log(url)
 
   return fetch(url, {
@@ -66,8 +66,8 @@ export const updateRule = async function (name, rule) {
     })
 }
 
-export const deleteRule = async function (name) {
-  const url = makeUrl(serverUrl, '/rules/deleteOneRule')
+export const deleteState = async function (name) {
+  const url = makeUrl(serverUrl, '/state/deleteOneState')
   console.log(url)
 
   return fetch(url, {

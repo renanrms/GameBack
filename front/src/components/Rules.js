@@ -5,7 +5,7 @@ import { GridList } from '@material-ui/core';
 import NewRuleDialog from './NewRuleDialog';
 import { listRules } from '../api/rules'
 
-const array = [
+const mockData = [
   {
     title: "Exemplo de regra 1",
     date: "15/05/2020",
@@ -48,18 +48,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Rules() {
+  const classes = useStyles();
 
-const [rules, setRules] = useState([]);
+  const [rules, setRules] = useState([]);
 
   useEffect(() => {
     listRules()
     .then(response => {
       //TODO: setRules(response);
-      setRules(array)
+      setRules(mockData)
     })
   }, []);
-
-  const classes = useStyles();
 
   const renderCardList = () => {
     return (
