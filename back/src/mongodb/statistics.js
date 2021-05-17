@@ -4,7 +4,7 @@ const collectionName = "statistics"
 
 class StatisticsTable {
 
-    async registerStatistic(date,value){
+    static async registerStatistic(date,value){
         let collections = await DbConn.getCollection(collectionName);
 
 
@@ -14,7 +14,7 @@ class StatisticsTable {
 
     }
 
-    async returnAllStatistics(){
+    static async returnAllStatistics(){
         let collections = await DbConn.getCollection(collectionName);
 
         let result =  await collections.find().toArray()
@@ -22,8 +22,8 @@ class StatisticsTable {
         
     }
 
-    async returnOneStatistics(date){
-        
+    static async returnOneStatistics(date){
+        let collections = await DbConn.getCollection(collectionName);
 
         let result =  await collections.findOne({'_id':date})
         return result
@@ -31,7 +31,7 @@ class StatisticsTable {
 
     }
 
-    async updateOneStatistics(dateBefore,valueAfter){
+    static async updateOneStatistics(dateBefore,valueAfter){
         let collections = await DbConn.getCollection(collectionName);
  
         await collections.updateOne(
@@ -43,7 +43,7 @@ class StatisticsTable {
     }
 
 
-    async deleteOneStatistics(date){
+    static async deleteOneStatistics(date){
         let collections = await DbConn.getCollection(collectionName);
 
         await collections.deleteOne({'_id':date})
@@ -52,4 +52,4 @@ class StatisticsTable {
 
 }
 
-module.exports = {StatisticsTable}
+module.exports = StatisticsTable;

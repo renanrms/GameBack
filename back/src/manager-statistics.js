@@ -1,41 +1,48 @@
 const StatisticsTable = require('./mongodb/statistics.js')
-const {oneLessHour} = require('./oneLessHour.js')
+const oneLessDay = require('./oneLessDay.js')
 
 var time = new Date();
 date = {
     'year':time.getFullYear(),
     'month':time.getMonth()+1,
-    'day':time.getDate(),
-    'hours':time.getHours()
+    'day': time.getDate()
 }
 
 
 class ManagerStatistics {
 
-    async update(Ivalue){
-
-        if (returnOneStatistics(date) != {})
+    static async update(){
+        console.log(date)
+        let achou = await StatisticsTable.returnOneStatistics(date)
+        if (achou != null)
         {
-            today = StatisticsTable.returnOneStatistics(date)
+            console.log('a')
+            let value = achou['value']
             StatisticsTable.updateOneStatistics(date,value+1)
         }
         else{
-            StatisticsTable.registerStatistic(date,0)
+            console.log('b')
+            StatisticsTable.registerStatistic(date,1)
         }
+        return true
     }
 
-    async list(){
+    static async list(){
 
-        week = {}
+        var week = {}
 
-        aux = date
+        var aux = date
         for (let count=0;count<7;count++){
             let value = 0
-            today = StatisticsTable.returnOneStatistics(aux)
-            value = today['value']
+            let today = await StatisticsTable.returnOneStatistics(aux)
+            if (today!=null)
+            {
+                value = today['value']
+            }
+            //
             
             week[count] = {...aux,...{'nlog':value}}
-            aux = oneLessHour(aux)
+            aux = oneLessDay(aux)
         }
 
         console.log(week)
@@ -46,7 +53,7 @@ class ManagerStatistics {
 
 }
 
-module.exports = {ManagerStatistics}
+module.exports = ManagerStatistics;
 
 
 

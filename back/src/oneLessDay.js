@@ -1,15 +1,8 @@
-function oneLessHour(date)
+function oneLessDay(date)
 {
-    lhours = date['hours'] - 1
-    lday = date['day']
+    lday = date['day'] - 1
     lmounth = date['month']
     lyear = date['year']
-
-    if (lhours == -1)
-    {
-        lhours = 23
-        lday = lday-1
-    }
     
     if (lday == 0)
     {
@@ -43,8 +36,8 @@ function oneLessHour(date)
             lday = 30
         }
     }
-    return {year:lyear,month:lmounth,day:lday,hours:lhours}
+    return {year:lyear,month:lmounth,day:lday}
 }
 
 
-module.exports = PlayersTable;
+module.exports = oneLessDay;

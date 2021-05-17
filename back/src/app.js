@@ -6,7 +6,7 @@ const RulesTable = require('./mongodb/rules');
 const EventsTable = require('./mongodb/events');
 const eventList = require('./events/actionsList')
 const StatisticsTable = require('./mongodb/statistics.js')
-const ManagerStatistics = require('./mongodb/statistics.js')
+const ManagerStatistics = require('./manager-statistics.js')
 const {checkToken,generateToken} = require('./auth/auth.js')
 
 const app = express();
@@ -162,8 +162,9 @@ app.post('/statistics/get', async (req, res) => {
 
 //list all statistics created
 app.get('/statistics/returnAllStatistics', async (req, res) => {
-
+    //console.log('a')
     let statistics=await StatisticsTable.returnAllStatistics()
+    console.log(statistics)
     return  res.json(statistics)
 })
 
