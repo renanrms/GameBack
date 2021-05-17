@@ -19,3 +19,5 @@ async function get(resource, token) {
 
   return data;
 }
+
+export { get };

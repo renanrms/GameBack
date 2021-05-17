@@ -8,6 +8,7 @@ function register(username, password, state) {
       return data; // Melhor analisar o conteúdo de data para retornar a parte necessária!
     });
 }
+export { register };
 
 // Classe para autenticação e todas as operações do player.
 class Player {
@@ -41,3 +42,4 @@ class Player {
   }
   
 }
+export { Player };
