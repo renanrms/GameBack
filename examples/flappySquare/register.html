@@ -78,12 +78,27 @@
 
 <body>
     <script>
-        async function Registrar() {
+        function trocaParaLogin() {
+            location.replace("./login.html")
+        }
+
+        async function registrar() {
             usuario = document.getElementById("username").value
             senha = document.getElementById("password").value
-            res = await register(usuario,senha)
+            senhaDeConfirmacao = document.getElementById("confirmationPassword").value
+            if (senhaDeConfirmacao == "" || senha == "" || usuario == "") {
+                window.alert("Todos os campos devem ser preenchidos!");
+                return 1;
+            }
+            if (senhaDeConfirmacao != senha) {
+                window.alert("Senha de confirmação deiferente da senha!");
+                return 2;
+            }
+            res = await register(usuario, senha)
             console.log(res)
-        }   
+            location.replace("./login.html")
+            return 0;
+        }
     </script>
     <h2>Formulário de Registro</h2>
 
@@ -99,15 +114,18 @@
             <label for="psw"><b>Senha</b></label>
             <input id="password" type="password" placeholder="Enter Password" name="psw" required>
 
-            <button onclick="Registrar()" type="button">Registrar</button>
+            <label for="confpsw"><b>Confirmar Senha</b></label>
+            <input id="confirmationPassword" type="password" placeholder="Enter Password" name="confpsw" required>
+
+            <button onclick="registrar()" type="button">Registrar</button>
             <label>
                 <input type="checkbox" checked="checked" name="remember"> Lembre-se de mim
             </label>
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancelar</button>
-            
+            <button onclick="trocaParaLogin()" type="button" class="cancelbtn">Cancelar</button>
+
         </div>
     </form>
 
