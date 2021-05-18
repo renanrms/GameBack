@@ -1,14 +1,64 @@
-import { post } from "./apiWeb/post";
-import { get } from "./apiWeb/get";
+const API_BASE_URL = "https://poderdosanguedejesus.free.beeceptor.com" 
+
+async function post(content, resource, token=null) {
+  const url = new URL(`${API_BASE_URL}${resource}`);
+
+  if (token == null) {
+    headers = { "Content-Type": "application/json" }
+  }
+  else {
+    headers = {
+      "Content-Type": "application/json",
+      "X-Auth-Token": token
+    }
+  }
+
+  const response = await fetch(url.toString(), {
+    headers,
+    method: 'POST',
+    body: JSON.stringify(content),
+  });
+
+  let data;
+  try {
+    data = await response.json();
+  } catch (e) {
+    data = null;
+  }
+
+  if (!response.ok) {
+    throw data;
+  } else {
+    return data;
+  }
+}
+
+async function get(resource, token) {
+  const url = new URL(`${API_BASE_URL}${resource}`);
+
+  headers = {
+    "X-Auth-Token": token
+  }
+        
+  const response = await fetch(url.toString(), {
+    headers,
+    method: 'GET',
+  });
+
+  const data = await response.json();
+  if (!response.ok) {
+    throw data;
+  }
+
+  return data;
+}
 
 // Função para criar conta.
-function register(username, password, state) {
-  post({username, password, state}, '/player/register')
-    .then(data => {
-      return data; // Melhor analisar o conteúdo de data para retornar a parte necessária!
-    });
+async function register(username, password, state) {
+  const response = await post({username, password, state}, '/player/register');
+  return response;
 }
-export { register };
+
 
 // Classe para autenticação e todas as operações do player.
 class Player {
@@ -42,4 +92,4 @@ class Player {
   }
   
 }
-export { Player };
+
