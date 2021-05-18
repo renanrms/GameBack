@@ -5,7 +5,7 @@ export const makeUrl = (...fragments) => {
   return args.reduce((url, part) => (url.concat(part)));
 };
 
-export const parseJsonResponse = function (response) {
+export const handleJsonResponse = function (response) {
   return (response.json()
     .then(json => {
       return { data: json, code: response.status }

@@ -1,4 +1,4 @@
-import { makeUrl, serverUrl, parseJsonResponse } from './common';
+import { makeUrl, serverUrl, handleJsonResponse } from './common';
 
 export const listRules = async function () {
   const url = makeUrl(serverUrl, '/rules/returnAllRules')
@@ -10,7 +10,7 @@ export const listRules = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(response => (parseJsonResponse(response)))
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const getRule = async function () {
@@ -23,7 +23,7 @@ export const getRule = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(response => (parseJsonResponse(response)))
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const createRule = async function (name, rule) {
@@ -37,7 +37,7 @@ export const createRule = async function (name, rule) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(response => (parseJsonResponse(response)))
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const updateRule = async function (name, rule) {
@@ -51,7 +51,7 @@ export const updateRule = async function (name, rule) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(response => (parseJsonResponse(response)))
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const deleteRule = async function (name) {
@@ -65,5 +65,5 @@ export const deleteRule = async function (name) {
     },
     body: JSON.stringify({ name })
   })
-    .then(response => (parseJsonResponse(response)))
+    .then(response => (handleJsonResponse(response)))
 }

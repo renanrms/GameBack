@@ -1,4 +1,4 @@
-import { makeUrl, serverUrl } from './common';
+import { makeUrl, serverUrl, handleJsonResponse } from './common';
 
 export const listStates = async function () {
   const url = makeUrl(serverUrl, '/state/returnAllStates')
@@ -10,10 +10,7 @@ export const listStates = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const getState = async function () {
@@ -26,10 +23,7 @@ export const getState = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const createState = async function (name, rule) {
@@ -43,10 +37,7 @@ export const createState = async function (name, rule) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const updateState = async function (name, rule) {
@@ -60,10 +51,7 @@ export const updateState = async function (name, rule) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const deleteState = async function (name) {
@@ -77,8 +65,5 @@ export const deleteState = async function (name) {
     },
     body: JSON.stringify({ name })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
