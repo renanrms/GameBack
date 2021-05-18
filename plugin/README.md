@@ -14,4 +14,10 @@ Para integrar o plugin ao jogo, adicione esta pasta ao código fonte do cliente 
 import { register, Player } from "CAMINHO_DESTA_PASTA/gameback";
 ```
 
+Ou
+
+```html
+<script src="CAMINHO_DESTA_PASTA/gameback.js"></script>
+```
+
 Depois é só usar os nomes importados.
