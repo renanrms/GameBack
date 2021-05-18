@@ -12,7 +12,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as urls from '../constants/Urls';
 import { loginAdmin, dispatchLogin } from '../api/auth';
-import { Code } from '@material-ui/icons';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
@@ -76,7 +75,7 @@ export default function Signin(props) {
     loginAdmin(username, password)
     .then((response) => {
       const { code, data } = response;
-      if (code == 200) {
+      if (code === 200) {
         dispatchLogin(data.token)
         return history.push(urls.DASHBOARD);
       } else {

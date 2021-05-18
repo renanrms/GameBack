@@ -3,28 +3,24 @@ import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
+// import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+// import NotificationsIcon from '@material-ui/icons/Notifications';
 import * as options from '../constants/MenuOptions';
 import MenuItems from '../components/MenuItems';
 import DataTable from '../components/DataTable'
 import Rules from '../components/Rules';
 import Items from '../components/Items';
 import Events from '../components/Events';
-import Players from '../components/Players';
 import Statistics from '../components/Statistics';
 import States from '../components/States'
 import Chart from '../components/Chart';
@@ -113,8 +109,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashboard() {
   const classes = useStyles();
-  const [content, setContent] = React.useState(0);
-  const [open, setOpen] = React.useState(true);
+  const [content, setContent] = useState(0);
+  const [open, setOpen] = useState(true);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -129,22 +125,18 @@ export default function Dashboard() {
         return (
           <Rules/>
         )
-        break;
       case options.EVENTS:
         return (
           <Events/>
         )
-        break;
       case options.ITEMS:
         return (
           <Items/>
         )
-        break;
       case options.STATES:
         return (
           <States/>
         )
-        break;
       case options.PLAYERS:
         return (
           <Grid container spacing={3}>
@@ -156,7 +148,6 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         )
-        break;
       case options.STATISTICS:
         return (
           <Grid container spacing={3}>
@@ -168,7 +159,6 @@ export default function Dashboard() {
             </Grid>
           </Grid>
         )
-        break;
       default:
         break;
     }

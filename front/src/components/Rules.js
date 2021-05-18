@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import RuleCard from './RuleCard';
-import { makeStyles } from '@material-ui/core/styles';
 import { GridList } from '@material-ui/core';
 import NewRuleDialog from './NewRuleDialog';
 import { listRules } from '../api/rules'
@@ -39,16 +38,7 @@ const mockData = [
   }
 ]
 
-const useStyles = makeStyles((theme) => ({
-  button: {
-    margin: theme.spacing(1),
-    marginLeft: '17px',
-    marginBottom: '20px'
-  },
-}));
-
 export default function Rules() {
-  const classes = useStyles();
 
   const [rules, setRules] = useState([]);
 
