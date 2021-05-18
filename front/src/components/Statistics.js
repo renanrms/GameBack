@@ -1,6 +1,4 @@
-import { Grid, Paper } from '@material-ui/core';
 import React from 'react';
-import Chart from '../components/Chart';
 
 export default function Statistics() {
   return (

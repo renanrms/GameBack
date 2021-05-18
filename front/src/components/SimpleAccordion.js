@@ -4,8 +4,9 @@ import { withStyles } from '@material-ui/core/styles';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import CheckboxList from './CheckboxList'
 import {
-  ExpansionPanel, ExpansionPanelDetails, ExpansionPanelSummary, Typography
+  Accordion, AccordionDetails, AccordionSummary, Typography
 } from '@material-ui/core';
+
 
 const mockData = {
   race: ['Humano', 'Elfo', 'Orc', 'Anão'],
@@ -27,41 +28,41 @@ function SimpleAccordion(props) {
   const { classes } = props;
   return (
     <div className={classes.root}>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Raças</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <CheckboxList
             data={mockData.race}
           />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Classes</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <CheckboxList
             data={mockData.class}
           />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        </AccordionDetails>
+      </Accordion>
+      <Accordion>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Profissões</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
+        </AccordionSummary>
+        <AccordionDetails>
           <CheckboxList
             data={mockData.profession}
           />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
-      {/* <ExpansionPanel disabled>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+        </AccordionDetails>
+      </Accordion>
+      {/* <Accordion disabled>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Disabled Expansion Panel</Typography>
-        </ExpansionPanelSummary>
-      </ExpansionPanel> */}
+        </AccordionSummary>
+      </Accordion> */}
     </div>
   );
 }

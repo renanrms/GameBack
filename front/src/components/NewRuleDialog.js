@@ -8,6 +8,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import { TextField } from '@material-ui/core';
+import { createRule } from '../api/rules';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function DraggableDialog() {
+export default function NewRuleDialog({ showAllRules }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [name, setName] = useState('');
@@ -30,6 +31,24 @@ export default function DraggableDialog() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handleSubmit = () => {
+    createRule(name, content)
+    .then((response) => {
+      const { code, data } = response;
+      console.log(response)
+      if (code == 200) {
+        console.log(data)
+        setName('')
+        setContent('')
+        showAllRules();
+        handleClose();
+      } else {
+        console.log(response)
+        handleClose();
+      }
+    })
+  }
 
   return (
     <div>
@@ -47,7 +66,7 @@ export default function DraggableDialog() {
         onClose={handleClose}
       >
         <DialogTitle>
-          Adicionar Nova Regra
+          Adicionar nova regra
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -71,16 +90,17 @@ export default function DraggableDialog() {
             fullWidth
             name="content"
             label="Conteúdo"
+            rows={6}
             value={content}
             onChange={(event) => { setContent(event.target.value) }}
-            autoComplete="current-password"
+            multiline
           />
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleSubmit} color="primary">
             Confirmar
           </Button>
         </DialogActions>

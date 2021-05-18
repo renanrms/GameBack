@@ -1,4 +1,4 @@
-import { makeUrl, serverUrl } from './common';
+import { makeUrl, serverUrl, handleJsonResponse } from './common';
 
 export const listEvents = async function () {
   const url = makeUrl(serverUrl, '/event/returnAllEvents')
@@ -10,10 +10,7 @@ export const listEvents = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const getEvent = async function () {
@@ -26,10 +23,7 @@ export const getEvent = async function () {
       'Content-Type': 'application/json'
     }
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const createEvent = async function (route, eventName) {
@@ -43,10 +37,7 @@ export const createEvent = async function (route, eventName) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const updateEvent = async function (route, eventName) {
@@ -60,10 +51,7 @@ export const updateEvent = async function (route, eventName) {
     },
     body: JSON.stringify({ name, rule })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }
 
 export const deleteEvent = async function (route) {
@@ -77,8 +65,5 @@ export const deleteEvent = async function (route) {
     },
     body: JSON.stringify({ name })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (handleJsonResponse(response)))
 }

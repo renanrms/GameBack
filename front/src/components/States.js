@@ -1,5 +1,4 @@
 import React from 'react';
-import CheckboxList from './CheckboxList'
 import SimpleAccordion from './SimpleAccordion';
 
 export default function States() {

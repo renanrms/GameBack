@@ -7,7 +7,7 @@ const EventsTable = require('./mongodb/events');
 const eventList = require('./events/actionsList')
 const StatisticsTable = require('./mongodb/statistics.js')
 const ManagerStatistics = require('./manager-statistics.js')
-const {checkToken,generateToken} = require('./auth/auth.js')
+const { checkToken, generateToken } = require('./auth/auth.js')
 
 const app = express();
 app.use(cors());
@@ -20,20 +20,17 @@ app.listen(port, async () => {
 
 //check if admin username and password are ok
 app.post('/admin/login', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-    const username = req.body.username;
-    const password = req.body.password;
+  let loginOk = await AdminTable.loginAdmin(username, password)
 
-    let loginOk=await AdminTable.loginAdmin(username,password)
-
-    if (loginOk){
-        return res.json(generateToken(username,"admin"))
-    }
-    else{
-        res.statusCode = 403;
-        return  res.json({})
-    }
-
+  if (loginOk) {
+    return res.status(200).json(generateToken(username,"admin"))
+  } else {
+    res.statusCode = 403;
+    return res.json({})
+  }
 })
 
 //Admin signup
@@ -114,44 +111,37 @@ app.get('/player/getData', async (req, res) => {
 
 //list all rules created
 app.get('/rules/returnAllRules', async (req, res) => {
-
-    let rules=await RulesTable.returnAllRules()
-    return  res.json(rules)
+  let rules = await RulesTable.returnAllRules()
+  return res.status(200).json(rules)
 })
-
 
 app.post('/rules/registerRule', async (req, res) => {
-
-    const ruleName = req.body.name;
-    const ruleValue = req.body.rule;
-    let rules=await RulesTable.registerRule(ruleName,ruleValue)
-    return  res.json({result:rules})
+  const name = req.body.name;
+  const content = req.body.content;
+  let rules = await RulesTable.registerRule(name, content)
+  return res.status(200).json({ result: rules })
 })
 
-
 app.get('/rules/returnOneRule', async (req, res) => {
-
-    const ruleName = req.query.name;
-    console.log("searching for name",ruleName)
-    let rule=await RulesTable.returnOneRule(ruleName)
-    return  res.json(rule)
+  const ruleName = req.query.name;
+  console.log("searching for name",ruleName)
+  let rule = await RulesTable.returnOneRule(ruleName)
+  return res.status(200).json(rule)
 })
 
 app.post('/rules/updateOneRule', async (req, res) => {
+  const ruleNameBefore = req.body.name;
+  const ruleContentAfter = req.body.rule;
 
-    const ruleNameBefore = req.body.name;
-    const ruleContentAfter = req.body.rule;
-
-    let rules=await RulesTable.updateOneRule(ruleNameBefore,ruleContentAfter)
-    return  res.json(rules)
+  let rules = await RulesTable.updateOneRule(ruleNameBefore, ruleContentAfter)
+  return res.status(200).json(rules)
 })
 
-
 app.post('/rules/deleteOneRule', async (req, res) => {
+  const ruleName = req.body.name;
 
-    const ruleName = req.body.name;
-    let rules=await RulesTable.deleteOneRule(ruleName)
-    return  res.json(rules)
+  let rules = await RulesTable.deleteOneRule(ruleName)
+  return res.status(200).json(rules)
 })
 
 

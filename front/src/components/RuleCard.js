@@ -13,10 +13,11 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditRuleDialog from './EditRuleDialog'
 import DeleteRuleDialog from './DeleteRuleDialog'
+import { deleteRule, updateRule } from '../api/rules';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    width: 345,
     marginBottom: '20px',
     marginLeft: '20px',
     backgroundColor: '#e9ecef'
@@ -40,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RuleCard({title, date, content}) {
+function RuleCard({ title, content, showAllRules }) {
   const classes = useStyles();
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -54,9 +55,33 @@ function RuleCard({title, date, content}) {
     setIsOpenDeleteDialog(false)
   }
 
+  const handleDeleteRule = () => {
+    deleteRule(title)
+      .then(response => {
+        const { code, data } = response
+        if (code == 200) {
+          console.log("Regra deletada com sucesso")
+          showAllRules();
+        }
+      })
+    handleCloseDeleteRuleDialog();
+  }
+
   const handleOpenEditRuleDialog = () => {
     console.log("clickou no edit")
     setIsOpenEditDialog(true)
+  }
+
+  const handleUpdateRule = (newContent) => {
+    updateRule(title, newContent)
+      .then(response => {
+        const { code, data } = response
+        if (code == 200) {
+          console.log("Regra atualizada com sucesso")
+          showAllRules();
+        }
+      })
+    handleCloseEditRuleDialog();
   }
 
   const handleCloseEditRuleDialog = () => {
@@ -65,50 +90,54 @@ function RuleCard({title, date, content}) {
 
   return (
     <>
-    <Card className={classes.root}>
-      <CardHeader
-        avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            R
-          </Avatar>
-        }
-        action={
-          <>
-            <IconButton aria-label="settings" onClick={handleOpenDeleteRuleDialog}>
-              <DeleteIcon />
-            </IconButton>
-            <IconButton aria-label="settings" onClick={handleOpenEditRuleDialog}>
-              <MoreVertIcon />
-            </IconButton>
-          </>
-        }
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          action={
+            <>
+              <IconButton aria-label="settings" onClick={handleOpenDeleteRuleDialog}>
+                <DeleteIcon />
+              </IconButton>
+              <IconButton aria-label="settings" onClick={handleOpenEditRuleDialog}>
+                <MoreVertIcon />
+              </IconButton>
+            </>
+          }
+          title={title}
+          // subheader={date}
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {content}
+          </Typography>
+        </CardContent>
+        <CardActions disableSpacing>
+        </CardActions>
+      </Card>
+      <DeleteRuleDialog
+        open={isOpenDeleteDialog}
+        handleClose={handleCloseDeleteRuleDialog}
+        handleDeleteRule={handleDeleteRule}
         title={title}
-        subheader={date}
       />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {content}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-      </CardActions>
-    </Card>
-    <DeleteRuleDialog
-      open={isOpenDeleteDialog}
-      handleClose={handleCloseDeleteRuleDialog}
-      title={title}
-    />
-    <EditRuleDialog
-      open={isOpenEditDialog}
-      handleClose={handleCloseEditRuleDialog}
-    />
+      <EditRuleDialog
+        open={isOpenEditDialog}
+        handleClose={handleCloseEditRuleDialog}
+        handleUpdateRule={handleUpdateRule}
+        title={title}
+        content={content}
+      />
     </>
   );
 }
 
 RuleCard.propTypes = {
   title: PropTypes.string,
-  date: PropTypes.string,
+  // date: PropTypes.string,
   content: PropTypes.string
 }
 

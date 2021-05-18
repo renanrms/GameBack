@@ -12,6 +12,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import * as urls from '../constants/Urls';
 import { loginAdmin, dispatchLogin } from '../api/auth';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
+
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 function Copyright() {
   return (
@@ -51,20 +57,32 @@ export default function Signin(props) {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [error, setError] = useState('')
   const history = useHistory();
+
+  function handleOpenSnackbar() {
+    setOpenSnackbar(true)
+  }
+
+  function handleCloseSnackbar() {
+    setOpenSnackbar(false)
+  }
 
   function handleSubmit(event) {
     event.preventDefault();
 
-    loginAdmin(username, password);
-    const response = {
-      data: {
-        token: "mock_token"
+    loginAdmin(username, password)
+    .then((response) => {
+      const { code, data } = response;
+      if (code === 200) {
+        dispatchLogin(data.token)
+        return history.push(urls.DASHBOARD);
+      } else {
+        setError(`Nome de usuário ou senha inválida.`)
+        handleOpenSnackbar(true)
       }
-    }
-    dispatchLogin(response.data.token);
-
-    return history.push(urls.DASHBOARD);
+    });
   }
 
   function validateForm() {
@@ -119,6 +137,13 @@ export default function Signin(props) {
           </Button>
         </form>
       </div>
+      <Snackbar
+        anchorOrigin={{vertical: 'top', horizontal: 'center'}}
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}>
+        <Alert onClose={handleCloseSnackbar} severity="error">{error}</Alert>
+      </Snackbar>
       <Box mt={8}>
         <Copyright />
       </Box>

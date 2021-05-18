@@ -4,15 +4,13 @@ const collectionName = "rules"
 
 class RulesTable {
 
-    
-    static async registerRule(rule,content){
+
+    static async registerRule(name, content){
         let collections = await DbConn.getCollection(collectionName);
 
-
-        let entry={'_id':rule,'content':content}
+        let entry={'_id': name, 'content': content}
         collections.insertOne(entry)
         return true
-
     }
 
     static async returnAllRules(){
@@ -20,7 +18,7 @@ class RulesTable {
 
         let result =  await collections.find().toArray()
         return result
-        
+
     }
 
     static async returnOneRule(rule){
@@ -28,17 +26,17 @@ class RulesTable {
 
         let result =  await collections.findOne({'_id':rule})
         return result
-        
+
 
     }
 
     static async updateOneRule(ruleBefore,contentAfter){
         let collections = await DbConn.getCollection(collectionName);
- 
+
         await collections.updateOne(
             {'_id':ruleBefore},
             { $set:  {'content':contentAfter} }
-            
+
         )
         return true
     }

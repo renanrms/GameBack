@@ -7,14 +7,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-function DeleteRuleDialog({ open, handleClose, title}) {
+function DeleteRuleDialog({ open, handleClose, handleDeleteRule, title }) {
   return (
     <Dialog
       open={open}
       onClose={handleClose}
     >
       <DialogTitle>
-        Deletar Regra
+        Deletar regra
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -25,7 +25,7 @@ function DeleteRuleDialog({ open, handleClose, title}) {
         <Button autoFocus onClick={handleClose} color="primary">
           Cancelar
         </Button>
-        <Button onClick={handleClose} color="primary">
+        <Button onClick={handleDeleteRule} color="primary">
           Confirmar
         </Button>
       </DialogActions>
@@ -34,6 +34,7 @@ function DeleteRuleDialog({ open, handleClose, title}) {
 }
 
 DeleteRuleDialog.propTypes = {
+  handleDeleteRule: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired
