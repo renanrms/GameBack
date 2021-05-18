@@ -5,16 +5,18 @@ const collectionName = "admin"
 
 class AdminTable {
     //tries to check password on database
-    static async loginAdmin(username,passwd){
-        let collections = await DbConn.getCollection(collectionName);
-        let result = await collections.find().toArray()
-        let adminData = result[0]
-        console.log(adminData,adminData.username)
-        if (passwd ===adminData.password && username===adminData.username){
-            return true;
-        }
-        console.log("[INFO] Login attempted failed")
-        return false
+    static async loginAdmin(username, password){
+      let collections = await DbConn.getCollection(collectionName);
+      let query = await collections.findOne({"username": username})
+
+      console.log(query.username, query.password)
+
+      if (password === query.password && username === query.username){
+        return true;
+      }
+
+      console.log("[INFO] Login attempted failed")
+      return false
     }
 
   static async createAdmin(username, password) {

@@ -7,7 +7,7 @@ const EventsTable = require('./mongodb/events');
 const eventList = require('./events/actionsList')
 const StatisticsTable = require('./mongodb/statistics.js')
 const ManagerStatistics = require('./manager-statistics.js')
-const {checkToken,generateToken} = require('./auth/auth.js')
+const { checkToken, generateToken } = require('./auth/auth.js')
 
 const app = express();
 app.use(cors());
@@ -20,20 +20,17 @@ app.listen(port, async () => {
 
 //check if admin username and password are ok
 app.post('/admin/login', async (req, res) => {
+  const username = req.body.username;
+  const password = req.body.password;
 
-    const username = req.body.username;
-    const password = req.body.password;
+  let loginOk = await AdminTable.loginAdmin(username, password)
 
-    let loginOk=await AdminTable.loginAdmin(username,password)
-
-    if (loginOk){
-        return res.json(generateToken(username,"admin"))
-    }
-    else{
-        res.statusCode = 403;
-        return  res.json({})
-    }
-
+  if (loginOk) {
+    return res.status(200).json(generateToken(username,"admin"))
+  } else {
+    res.statusCode = 403;
+    return res.json({})
+  }
 })
 
 //Admin signup
