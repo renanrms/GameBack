@@ -54,7 +54,7 @@ export const updateEvent = async function (name, route) {
     .then(response => (handleJsonResponse(response)))
 }
 
-export const deleteEvent = async function (name) {
+export const deleteEvent = async function (id) {
   const url = makeUrl(serverUrl, '/events/deleteOneEvent')
   console.log(url)
 
@@ -63,7 +63,7 @@ export const deleteEvent = async function (name) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name })
+    body: JSON.stringify({ id })
   })
     .then(response => (handleJsonResponse(response)))
 }

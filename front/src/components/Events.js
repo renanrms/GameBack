@@ -1,11 +1,105 @@
-import React from 'react';
-import EventsPanel from './EventsPanel'
+import React, {useState, useEffect} from 'react';
+import {
+  DataGrid,
+  GridToolbarContainer,
+} from '@material-ui/data-grid';
+import { listEvents, deleteEvent } from '../api/events'
+import { IconButton, makeStyles } from '@material-ui/core';
+import DeleteIcon from '@material-ui/icons/Delete';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import NewEventDialog from './NewEventDialog';
+import DeleteEventDialog from './DeleteEventDialog';
 
-export default function Events() {
+const columns = [
+  { field: '_id', headerName: 'ID', width: 400 },
+  { field: 'name', headerName: 'Nome', width: 140 },
+  { field: 'route', headerName: 'Rota', width: 600 },
+];
+
+const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    justifyContent: "flex-end"
+  }
+}));
+
+export default function Event() {
+  const [events, setEvents] = useState([]);
+  const [selectionModel, setSelectionModel] = useState([]);
+  const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
+
+  const handleOpenDeleteEventDialog = () => {
+    setIsOpenDeleteDialog(true)
+  }
+
+  const handleCloseDeleteEventDialog = () => {
+    setIsOpenDeleteDialog(false)
+  }
+
+  const handleDeleteEvent = () => {
+    console.log(selectionModel[0])
+    deleteEvent(selectionModel[0])
+      .then(response => {
+        const { code, data } = response
+        if (code == 200) {
+          console.log("Evento deletado com sucesso")
+          showAllEvents();
+        }
+      })
+    handleCloseDeleteEventDialog();
+  }
+
+  useEffect(() => {
+    showAllEvents()
+  }, []);
+
+  function showAllEvents() {
+    listEvents()
+      .then(response => {
+        const { code, data } = response
+        if (code == 200) {
+          setEvents(data)
+        }
+        console.log(response)
+      })
+  }
+
+  function CustomToolbar() {
+    const classes = useStyles();
     return (
-      <>
-        <h1 style={{ textAlign: 'center', marginTop: '0'}}>Eventos</h1>
-        <EventsPanel/>
-      </>
+      <GridToolbarContainer className={classes.toolbar}>
+        <IconButton color="primary" onClick={handleOpenDeleteEventDialog}>
+          <DeleteIcon />
+        </IconButton>
+          <DeleteEventDialog
+            open={isOpenDeleteDialog}
+            handleClose={handleCloseDeleteEventDialog}
+            handleDeleteEvent={handleDeleteEvent}
+            id={selectionModel}
+          />
+        <NewEventDialog
+          showAllEvents={showAllEvents}
+        />
+      </GridToolbarContainer>
     );
+  }
+
+  return (
+    <>
+    <h1 style={{ textAlign: 'center', marginTop: '0' }}>Eventos</h1>
+      <div style={{ height: 440}}>
+        <DataGrid
+          rows={events}
+          columns={columns}
+          pageSize={10}
+          getRowId={(row) => row._id}
+          onSelectionModelChange={(newSelection) => {
+            setSelectionModel(newSelection.selectionModel);
+          }}
+          components={{
+            Toolbar: CustomToolbar
+          }}
+        />
+      </div>
+    </>
+  );
 }

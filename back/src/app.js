@@ -243,6 +243,13 @@ app.post('/events/updateOneEvent', async (req, res) => {
   return res.json(event)
 })
 
+app.post('/events/deleteOneEvent', async (req, res) => {
+  const id = req.body.id
+
+  let event = await EventsTable.deleteOneEvent(id)
+  return res.json(event)
+})
+
 app.post('/events/getAviables', async (req, res) => {
   return res.json(eventList)
 })

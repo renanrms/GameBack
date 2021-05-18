@@ -37,10 +37,10 @@ class EventsTable {
         return true
     }
 
-    static async deleteRoute(route){
+  static async deleteOneEvent(id){
         let collections = await DbConn.getCollection(collectionName);
 
-        await collections.deleteOne({'route': route})
+        await collections.deleteOne({'_id': id})
         return true
     }
 }
