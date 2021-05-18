@@ -132,7 +132,7 @@ app.get('/rules/returnOneRule', async (req, res) => {
 
 app.post('/rules/updateOneRule', async (req, res) => {
   const ruleNameBefore = req.body.name;
-  const ruleContentAfter = req.body.rule;
+  const ruleContentAfter = req.body.content;
 
   let rules = await RulesTable.updateOneRule(ruleNameBefore, ruleContentAfter)
   return res.status(200).json(rules)
@@ -216,49 +216,43 @@ app.post('/statistics/deleteOneStatistic', async (req, res) => {
 //----------------------------Events----------------------
 
 app.get('/events/getAllEvents', async (req, res) => {
-
-    let events=await EventsTable.returnAllRules()
-    return  res.json(events)
+  let events = await EventsTable.returnAllEvents()
+  return res.json(events)
 })
-
 
 app.post('/events/addEvent', async (req, res) => {
+  const name = req.body.name;
+  const route = req.body.route;
 
-    const route = req.body.route;
-    const eventName = req.body.eventName;
-    let result=await EventsTable.addEvent(route,eventName)
-    return  res.json({"result":result})
+  let result = await EventsTable.addEvent(name, route)
+  return res.json({"result": result})
 })
 
-
 app.get('/events/getOneEvent', async (req, res) => {
+  const route = req.query.route;
 
-    const route = req.query.route;
-    let event=await EventsTable.getOneEvent(route)
-    return  res.json(event)
+  let event = await EventsTable.getOneEvent(route)
+  return res.json(event)
 })
 
 app.post('/events/updateOneEvent', async (req, res) => {
+  const name = req.body.name;
+  const route = req.body.route;
 
-    const route = req.body.route;
-    const eventName = req.body.eventName;
-
-    let event=await EventsTable.updateOneEvent(route,eventName)
-    return  res.json(event)
+  let event = await EventsTable.updateOneEvent(name, route)
+  return res.json(event)
 })
-
 
 app.post('/events/getAviables', async (req, res) => {
-    return res.json(eventList)
+  return res.json(eventList)
 })
-
 
 
 app.post('/events', async (req, res) => {
-
     const route = req.body.route
     const authToken = req.header('X-Auth-Token')
     const check = checkToken(authToken)
+
     if (!check.isOk){
         res.statusCode=403
         return res.json({})
@@ -267,8 +261,7 @@ app.post('/events', async (req, res) => {
     let response ={}
     if (route in eventList){
         response = eventList.route(check.username,req.body)
-    }
-    else{
+    } else {
         res.statusCode=404
     }
     return  res.json(response)

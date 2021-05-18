@@ -1,54 +1,48 @@
 const DbConn = require('./mongo')
+const { v4: uuidv4 } = require('uuid');
 
 const collectionName = "events"
 
 class EventsTable {
 
-    
-    static async addEvent(route,eventName){
+    static async addEvent(name, route){
         let collections = await DbConn.getCollection(collectionName);
 
-
-        let entry={'_id':route,'event':eventName}
+        let entry = {'_id': uuidv4(), 'name': name, 'route': route}
         collections.insertOne(entry)
         return true
-
     }
 
-    static async getAllEvents(){
+    static async returnAllEvents(){
         let collections = await DbConn.getCollection(collectionName);
         let result =  await collections.find().toArray()
         return result
-        
     }
 
     static async getOneEvent(route){
         let collections = await DbConn.getCollection(collectionName);
 
-        let result =  await collections.findOne({'_id':route})
+        let result = await collections.findOne({'route': route})
         return result
     }
 
-
-    static async updateOneEvent(route,newEvent){
+    static async updateOneEvent(route, newEvent){
         let collections = await DbConn.getCollection(collectionName);
- 
+
         await collections.updateOne(
-            {'_id':route},
-            { $set:  {'event':newEvent} }
-            
+            {'route': route},
+            { $set:  {'event': newEvent} }
+
         )
         return true
     }
 
-
     static async deleteRoute(route){
         let collections = await DbConn.getCollection(collectionName);
 
-        await collections.deleteOne({'_id':route})
+        await collections.deleteOne({'route': route})
         return true
     }
-
 }
 
 module.exports = EventsTable;

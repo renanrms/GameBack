@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import RuleCard from './RuleCard';
 import { GridList } from '@material-ui/core';
 import NewRuleDialog from './NewRuleDialog';
@@ -17,7 +17,7 @@ export default function Rules() {
       .then(response => {
         const { code, data } = response
         if (code == 200) {
-          setRules(response.data)
+          setRules(data)
         }
       })
   }

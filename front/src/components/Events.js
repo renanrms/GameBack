@@ -4,7 +4,7 @@ import EventsPanel from './EventsPanel'
 export default function Events() {
     return (
       <>
-        <h1 style={{ textAlign: 'center' }}>Eventos</h1>
+        <h1 style={{ textAlign: 'center', marginTop: '0'}}>Eventos</h1>
         <EventsPanel/>
       </>
     );

@@ -24,7 +24,6 @@ function EditRuleDialog({ open, handleClose, title, content, handleUpdateRule}) 
           disabled
           variant="outlined"
           margin="normal"
-          required
           fullWidth
           name="name"
           label="Nome"
