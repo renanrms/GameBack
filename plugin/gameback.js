@@ -59,7 +59,6 @@ async function register(username, password, state) {
   return response;
 }
 
-
 // Classe para autenticação e todas as operações do player.
 class Player {
   constructor(username, password) {
