@@ -1,4 +1,4 @@
-import { makeUrl, serverUrl } from './common';
+import { makeUrl, serverUrl, parseJsonResponse } from './common';
 
 export const TOKEN_KEY = "admin-token";
 export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null;
@@ -21,8 +21,6 @@ export const loginAdmin = async function (username, password) {
     },
     body: JSON.stringify({ username, password })
   })
-    .then(data => data.json())
-    .catch(err => {
-      console.log(err)
-    })
+    .then(response => (parseJsonResponse(response)))
 }
+
