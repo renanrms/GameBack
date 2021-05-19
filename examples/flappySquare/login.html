@@ -77,7 +77,26 @@
 </head>
 
 <body>
+    <script>
+        function trocaParaRegistro() {
+            location.replace("./register.html");
+        }
 
+        async function logar() {
+            usuario = document.getElementById("username").value;
+            senha = document.getElementById("password").value;
+            if (senha == "" || usuario == "") {
+                window.alert("Todos os campos devem ser preenchidos!");
+                return 1;
+            }
+    
+            res = await new Player(usuario, senha)
+            console.log(res)
+            //location.replace("./index.html");
+            return 0;
+        }
+
+    </script>
     <h2>Formulário de Login</h2>
 
     <form action="/player/login" method="post">
@@ -87,20 +106,20 @@
 
         <div class="container">
             <label for="uname"><b>Usuário</b></label>
-            <input type="text" placeholder="Enter Username" name="uname" required>
+            <input id="username" type="text" placeholder="Enter Username" name="uname" required>
 
             <label for="psw"><b>Senha</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required>
+            <input id="password" type="password" placeholder="Enter Password" name="psw" required>
 
-            <button type="submit">Entrar</button>
+            <button onclick="logar()" type="button">Entrar</button>
             <label>
                 <input type="checkbox" checked="checked" name="remember"> Remember me
             </label>
         </div>
 
         <div class="container" style="background-color:#f1f1f1">
-            <button type="button" class="cancelbtn">Cancelar</button>
-            <span class="psw"> <a href="#">Não possui conta?</a></span>
+            <button onclick="trocaParaRegistro()" type="button" class="cancelbtn">Não possui conta</button>
+            <!-- <span class="psw"> <a href="#">Não possui conta?</a></span> -->
         </div>
     </form>
 
