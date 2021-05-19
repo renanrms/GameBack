@@ -56,7 +56,7 @@ DeleteEventDialog.propTypes = {
   handleDeleteEvent: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
   open: PropTypes.bool.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string
 }
 
 export default DeleteEventDialog;

@@ -1,10 +1,9 @@
 import { makeUrl, serverUrl, handleJsonResponse } from './common';
 
-
 export const listStatistics = async function () {
-  const url = makeUrl(serverUrl, '/statistics/get')
+  const url = makeUrl(serverUrl, '/statistics/returnAllStatistics')
   console.log(url)
-  
+
   return fetch(url, {
     method: 'GET',
     headers: {
