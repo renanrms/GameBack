@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://poderdosanguedejesus.free.beeceptor.com" 
+const API_BASE_URL = "https://testegameback.free.beeceptor.com" 
 
 async function post(content, resource, token=null) {
   const url = new URL(`${API_BASE_URL}${resource}`);
