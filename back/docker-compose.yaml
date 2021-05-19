@@ -21,13 +21,14 @@ services:
         environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
+            DB_ADDRESS: "mongo"
         command:
             - "node"
             - "/app/app.js"
         depends_on:
             - mongo
         ports:
-            - 30000:30000
+            - 3001:3001
             
     mongo-express:
         image: mongo-express
