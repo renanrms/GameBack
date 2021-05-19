@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RuleCard({ title, content, showAllRules }) {
+function RuleCard({ title, content, showAllRules, handleOpenSnackbar}) {
   const classes = useStyles();
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -58,30 +58,37 @@ function RuleCard({ title, content, showAllRules }) {
   const handleDeleteRule = () => {
     deleteRule(title)
       .then(response => {
-        const { code, data } = response
-        if (code == 200) {
+        const { code } = response
+        if (code === 200) {
           console.log("Regra deletada com sucesso")
           showAllRules();
+          handleCloseDeleteRuleDialog();
+          handleOpenSnackbar("Regra removida com sucesso!", "success")
+        } else {
+          handleCloseDeleteRuleDialog();
+          handleOpenSnackbar("Não foi possível remover a regra!", "error")
         }
       })
-    handleCloseDeleteRuleDialog();
   }
 
   const handleOpenEditRuleDialog = () => {
-    console.log("clickou no edit")
     setIsOpenEditDialog(true)
   }
 
   const handleUpdateRule = (newContent) => {
     updateRule(title, newContent)
       .then(response => {
-        const { code, data } = response
-        if (code == 200) {
+        const { code } = response
+        if (code === 200) {
           console.log("Regra atualizada com sucesso")
           showAllRules();
+          handleCloseEditRuleDialog();
+          handleOpenSnackbar("Regra atualizada com sucesso!", "success")
+        } else {
+          handleCloseEditRuleDialog();
+          handleOpenSnackbar("Não foi possível atualizar a regra!", "error")
         }
       })
-    handleCloseEditRuleDialog();
   }
 
   const handleCloseEditRuleDialog = () => {

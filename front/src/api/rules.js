@@ -26,7 +26,7 @@ export const getRule = async function () {
     .then(response => (handleJsonResponse(response)))
 }
 
-export const createRule = async function (name, rule) {
+export const createRule = async function (name, content) {
   const url = makeUrl(serverUrl, '/rules/registerRule')
   console.log(url)
 
@@ -35,12 +35,12 @@ export const createRule = async function (name, rule) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name, rule })
+    body: JSON.stringify({ name, content })
   })
     .then(response => (handleJsonResponse(response)))
 }
 
-export const updateRule = async function (name, rule) {
+export const updateRule = async function (name, content) {
   const url = makeUrl(serverUrl, '/rules/updateOneRule')
   console.log(url)
 
@@ -49,7 +49,7 @@ export const updateRule = async function (name, rule) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ name, rule })
+    body: JSON.stringify({ name, content })
   })
     .then(response => (handleJsonResponse(response)))
 }
