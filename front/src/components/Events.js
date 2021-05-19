@@ -36,7 +36,6 @@ export default function Event() {
   }
 
   const handleDeleteEvent = () => {
-    console.log(selectionModel[0])
     deleteEvent(selectionModel[0])
       .then(response => {
         const { code, data } = response
@@ -59,7 +58,6 @@ export default function Event() {
         if (code == 200) {
           setEvents(data)
         }
-        console.log(response)
       })
   }
 
@@ -74,7 +72,7 @@ export default function Event() {
             open={isOpenDeleteDialog}
             handleClose={handleCloseDeleteEventDialog}
             handleDeleteEvent={handleDeleteEvent}
-            id={selectionModel}
+            id={selectionModel[0]}
           />
         <NewEventDialog
           showAllEvents={showAllEvents}

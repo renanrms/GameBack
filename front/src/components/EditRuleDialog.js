@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,6 +10,14 @@ import { TextField } from '@material-ui/core';
 
 function EditRuleDialog({ open, handleClose, title, content, handleUpdateRule}) {
   const [newContent, setNewContent] = useState(content);
+
+  useEffect(() => {
+    setNewContent(content)
+  }, [open]);
+
+  function validateForm() {
+    return newContent.length > 0;
+  }
 
   return (
     <Dialog
@@ -47,7 +55,10 @@ function EditRuleDialog({ open, handleClose, title, content, handleUpdateRule}) 
         <Button autoFocus onClick={handleClose} color="primary">
           Cancelar
         </Button>
-        <Button onClick={() => { handleUpdateRule(newContent)} } color="primary">
+        <Button
+          disabled={!validateForm()}
+          onClick={() => { handleUpdateRule(newContent)} }
+          color="primary">
           Confirmar
         </Button>
       </DialogActions>

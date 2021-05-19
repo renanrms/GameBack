@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewRuleDialog({ showAllRules }) {
+export default function NewRuleDialog({ showAllRules, handleOpenSnackbar }) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [name, setName] = useState('');
@@ -32,6 +32,10 @@ export default function NewRuleDialog({ showAllRules }) {
     setOpen(false);
   };
 
+  function validateForm() {
+    return name.length > 0 && content.length > 0;
+  }
+
   const handleSubmit = () => {
     createRule(name, content)
     .then((response) => {
@@ -43,9 +47,11 @@ export default function NewRuleDialog({ showAllRules }) {
         setContent('')
         showAllRules();
         handleClose();
+        handleOpenSnackbar("Regra criada com sucesso!", "success");
       } else {
         console.log(response)
         handleClose();
+        handleOpenSnackbar("Não foi possível criar a regra. Por favor, tente novamente.", "error")
       }
     })
   }
@@ -100,7 +106,10 @@ export default function NewRuleDialog({ showAllRules }) {
           <Button autoFocus onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button
+            disabled={!validateForm()}
+            onClick={handleSubmit}
+            color="primary">
             Confirmar
           </Button>
         </DialogActions>

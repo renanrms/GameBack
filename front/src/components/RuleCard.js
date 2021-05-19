@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function RuleCard({ title, content, showAllRules }) {
+function RuleCard({ title, content, showAllRules, handleOpenSnackbar}) {
   const classes = useStyles();
 
   const [isOpenDeleteDialog, setIsOpenDeleteDialog] = useState(false);
@@ -62,12 +62,17 @@ function RuleCard({ title, content, showAllRules }) {
         if (code == 200) {
           console.log("Regra deletada com sucesso")
           showAllRules();
+          handleCloseDeleteRuleDialog();
+          handleOpenSnackbar("Regra removida com sucesso!", "success")
+        } else {
+          handleCloseDeleteRuleDialog();
+          handleOpenSnackbar("Não foi possível remover a regra!", "error")
         }
       })
-    handleCloseDeleteRuleDialog();
   }
 
   const handleOpenEditRuleDialog = () => {
+
     setIsOpenEditDialog(true)
   }
 
@@ -78,9 +83,13 @@ function RuleCard({ title, content, showAllRules }) {
         if (code == 200) {
           console.log("Regra atualizada com sucesso")
           showAllRules();
+          handleCloseEditRuleDialog();
+          handleOpenSnackbar("Regra atualizada com sucesso!", "success")
+        } else {
+          handleCloseEditRuleDialog();
+          handleOpenSnackbar("Não foi possível atualizar a regra!", "error")
         }
       })
-    handleCloseEditRuleDialog();
   }
 
   const handleCloseEditRuleDialog = () => {

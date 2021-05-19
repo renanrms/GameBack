@@ -16,20 +16,39 @@ function DeleteEventDialog({ open, handleClose, handleDeleteEvent, id }) {
       <DialogTitle>
         Deletar evento
       </DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          Deseja realmente deletar o evento <span style={{ fontWeight: 'bold' }}>{id}</span> ?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose} color="primary">
-          Cancelar
-        </Button>
-        <Button onClick={handleDeleteEvent} color="primary">
-          Confirmar
-        </Button>
-      </DialogActions>
-    </Dialog>
+      {
+        id ?(
+        <>
+          <DialogContent>
+            <DialogContentText>
+              Deseja realmente deletar o evento <span style={{ fontWeight: 'bold' }}>{id}</span> ?
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+          <Button autoFocus onClick={handleClose} color="primary">
+              Cancelar
+          </Button>
+          <Button onClick={handleDeleteEvent} color="primary">
+              Confirmar
+          </Button>
+          </DialogActions>
+        </>) :
+        (
+          <>
+            <DialogContent>
+              <DialogContentText>
+                Não há nenhum evento selecionado na tabela.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus onClick={handleClose} color="primary">
+                Ok
+              </Button>
+            </DialogActions>
+          </>
+        )
+      }
+    </Dialog >
   );
 }
 
