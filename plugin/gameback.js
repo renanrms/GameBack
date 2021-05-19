@@ -61,28 +61,29 @@ async function register(username, password, state) {
 
 // Classe para autenticação e todas as operações do player.
 class Player {
-  constructor(username, password) {
+  constructor() {
     this.state = {
       token: null,
       authenticated: false
     }
     this.username = null;
 
-    post({username, password}, '/player/login')
+  }
+  async authenticate(username, password) {
+    await post({username, password}, '/player/login')
       .then(data => {
         this.state.token = data["X-Auth-Token"];
         this.state.authenticated = true;
         this.username = username;
       })
   }
-
-  getState() {
-    data = get('/player/getState', this.token);
+  async getState() {
+    let data = await get('/player/getState', this.token);
     return data["state"];
   }
 
-  getPlayer() {
-    data = get('/player/getPlayer', this.token);
+  async getPlayer() {
+    let data = await get('/player/getPlayer', this.token);
     return data;
   }
 
