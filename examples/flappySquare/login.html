@@ -93,6 +93,7 @@
             res =  new Player()
             await res.authenticate(usuario, senha)
             console.log(res);
+            localStorage.setItem("jogador",res);
             localStorage.setItem("token",res.state.token);
             localStorage.setItem("username",usuario);
 

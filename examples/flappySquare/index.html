@@ -15,12 +15,14 @@
 </head>
 
 <body onload="startGame()">
+    
     <script>
-        
+
         console.log(register)
         var myGamePiece;
         var myObstacles = [];
         var myScore;
+
 
         function startGame() {
             myGamePiece = new component(30, 30, "yellow", 10, 120);
@@ -86,11 +88,16 @@
             }
         }
 
+        jogador = new Player()//localStorage.getItem("jogador");
+        console.log(jogador)
+        
         function updateGameArea() {
             var x, height, gap, minHeight, maxHeight, minGap, maxGap;
             for (i = 0; i < myObstacles.length; i += 1) {
                 if (myGamePiece.crashWith(myObstacles[i])) {
+                    enviaPontuacao(jogador,myGameArea.frameNo);
                     myGameArea.stop();
+                    mostraRecord(jogador);
                     return;
                 }
             }
@@ -124,29 +131,55 @@
         }
 
         function moveup() {
-            myGamePiece.speedY = -1;
+            myGamePiece.speedY = -1.5;
         }
 
         function movedown() {
-            myGamePiece.speedY = 1;
+            myGamePiece.speedY = 1.5;
         }
 
         function moveleft() {
-            myGamePiece.speedX = -1;
+            myGamePiece.speedX = -1.5;
         }
 
         function moveright() {
-            myGamePiece.speedX = 1;
+            myGamePiece.speedX = 1.5;
         }
 
         function clearmove() {
             myGamePiece.speedX = 0;
             myGamePiece.speedY = 0;
         }
+        
 
+        
+        //Envia pontuação para o back
+        function enviaPontuacao(jogador,pontuacao) {
+            jogador.executeEvent("addPoints", {"pointsGained":pontuacao}); //{"route":"addPoints","pointsGained":200}
+        }
 
+        //Informa o record do Jogador
+        async function mostraRecord(jogador) {
+            let record = await jogador.getState();
+            
+            await window.alert(record);
+        }
+
+        //Exibe o nome do jogador Logado
+
+        let usuario = localStorage.getItem("username");
+        var playerName = document.createElement("P");
+        playerName.id = "playerName";
+        playerName.innerHTML = `Jogador : ${usuario}`;
+        document.body.appendChild(playerName);
+        
+        
     </script>
+    
+    
+    
     <div style="text-align:center;width:480px;">
+        
         <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
         <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
         <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()">RIGHT</button><br><br>

@@ -79,7 +79,7 @@ class Player {
   }
   async getState() {
     let data = await get('/player/getState', this.token);
-    return data["state"];
+    return data["state"]; 
   }
 
   async getPlayer() {
@@ -87,7 +87,7 @@ class Player {
     return data;
   }
 
-  executeEvent(route, data) {
+  async executeEvent(route, data) {
     post({route, data}, '/events', this.state.token);
   }
   
