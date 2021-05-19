@@ -58,6 +58,7 @@ app.post('/player/login', async (req, res) => {
     let loginOk=await PlayersTable.login(username,password)
 
     if (loginOk){
+        await ManagerStatistics.update()
         return res.json(generateToken(username,"player"))
     }
     else{
@@ -157,7 +158,7 @@ app.post('/statistics/update', async (req, res) => {
     return  res.json(run)
 })
 
-app.post('/statistics/get', async (req, res) => {
+app.get('/statistics/get', async (req, res) => {
     let run= await ManagerStatistics.list()
     return  res.json(run)
 })
