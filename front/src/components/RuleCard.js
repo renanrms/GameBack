@@ -68,7 +68,6 @@ function RuleCard({ title, content, showAllRules }) {
   }
 
   const handleOpenEditRuleDialog = () => {
-    console.log("clickou no edit")
     setIsOpenEditDialog(true)
   }
 
