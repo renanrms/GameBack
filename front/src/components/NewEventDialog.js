@@ -22,6 +22,10 @@ export default function NewEventDialog({ showAllEvents }) {
     setOpen(false);
   };
 
+  function validateForm() {
+    return name.length > 0 && route.length > 0;
+  }
+
   const handleSubmit = () => {
     createEvent(name, route)
       .then((response) => {
@@ -84,7 +88,7 @@ export default function NewEventDialog({ showAllEvents }) {
           <Button autoFocus onClick={handleClose} color="primary">
             Cancelar
           </Button>
-          <Button onClick={handleSubmit} color="primary">
+          <Button disabled={!validateForm()} onClick={handleSubmit} color="primary">
             Confirmar
           </Button>
         </DialogActions>
