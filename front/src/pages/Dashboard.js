@@ -21,7 +21,6 @@ import DataTable from '../components/DataTable'
 import Rules from '../components/Rules';
 import Items from '../components/Items';
 import Events from '../components/Events';
-import Statistics from '../components/Statistics';
 import States from '../components/States'
 import Chart from '../components/Chart';
 import NavPanelButton from '../components/NavPanelButton'

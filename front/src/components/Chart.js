@@ -10,31 +10,31 @@ export default function Chart() {
   const [statistics, setStatistics] = useState();
 
   useEffect(() => {
+    function formatResponseData(data) {
+      return (data.map(({ _id: { day, month, year }, value }) => {
+        let date = new Date(year, month, day);
+        return createData(date, value)
+      }).sort((a, b) => {
+        return a.time - b.time
+      })).map(({ time, amount }) => {
+        let formattedDate = moment.utc(time).local().format('DD/MM')
+        return createData(formattedDate, amount)
+      })
+    }
+
+    function createData(time, amount) {
+      return { time, amount };
+    }
+
     listStatistics()
       .then(response => {
         const { code, data } = response;
-        if (code == 200) {
+        if (code === 200) {
           let formattedResponse = formatResponseData(data)
           setStatistics(formattedResponse)
         }
       })
   }, []);
-
-  function createData(time, amount) {
-    return { time, amount };
-  }
-
-  function formatResponseData(data) {
-    return (data.map(({_id: {day: day, month: month, year: year}, value: value}) => {
-      let date = new Date(year, month, day);
-      return createData(date, value)
-    }).sort((a, b) => {
-      return a.time - b.time
-    })).map(({time: time, amount: amount}) => {
-      let formattedDate = moment.utc(time).local().format('DD/MM')
-      return createData(formattedDate, amount)
-    })
-  }
 
   return (
     <React.Fragment>

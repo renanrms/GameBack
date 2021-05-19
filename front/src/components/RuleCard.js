@@ -58,8 +58,8 @@ function RuleCard({ title, content, showAllRules, handleOpenSnackbar}) {
   const handleDeleteRule = () => {
     deleteRule(title)
       .then(response => {
-        const { code, data } = response
-        if (code == 200) {
+        const { code } = response
+        if (code === 200) {
           console.log("Regra deletada com sucesso")
           showAllRules();
           handleCloseDeleteRuleDialog();
@@ -72,15 +72,14 @@ function RuleCard({ title, content, showAllRules, handleOpenSnackbar}) {
   }
 
   const handleOpenEditRuleDialog = () => {
-
     setIsOpenEditDialog(true)
   }
 
   const handleUpdateRule = (newContent) => {
     updateRule(title, newContent)
       .then(response => {
-        const { code, data } = response
-        if (code == 200) {
+        const { code } = response
+        if (code === 200) {
           console.log("Regra atualizada com sucesso")
           showAllRules();
           handleCloseEditRuleDialog();

@@ -6,7 +6,6 @@ import {
 import { listEvents, deleteEvent } from '../api/events'
 import { IconButton, makeStyles } from '@material-ui/core';
 import DeleteIcon from '@material-ui/icons/Delete';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
 import NewEventDialog from './NewEventDialog';
 import DeleteEventDialog from './DeleteEventDialog';
 
@@ -38,8 +37,8 @@ export default function Event() {
   const handleDeleteEvent = () => {
     deleteEvent(selectionModel[0])
       .then(response => {
-        const { code, data } = response
-        if (code == 200) {
+        const { code } = response
+        if (code === 200) {
           console.log("Evento deletado com sucesso")
           showAllEvents();
         }
@@ -55,7 +54,7 @@ export default function Event() {
     listEvents()
       .then(response => {
         const { code, data } = response
-        if (code == 200) {
+        if (code === 200) {
           setEvents(data)
         }
       })

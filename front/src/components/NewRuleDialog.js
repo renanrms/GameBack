@@ -41,7 +41,7 @@ export default function NewRuleDialog({ showAllRules, handleOpenSnackbar }) {
     .then((response) => {
       const { code, data } = response;
       console.log(response)
-      if (code == 200) {
+      if (code === 200) {
         console.log(data)
         setName('')
         setContent('')

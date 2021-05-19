@@ -24,7 +24,7 @@ export default function Rules() {
     listRules()
       .then(response => {
         const { code, data } = response
-        if (code == 200) {
+        if (code === 200) {
           setRules(data)
         }
       })
