@@ -7,16 +7,22 @@ class AdminTable {
     //tries to check password on database
     static async loginAdmin(username, password){
       let collections = await DbConn.getCollection(collectionName);
+      
       let query = await collections.findOne({"username": username})
 
-      console.log(query.username, query.password)
-
-      if (password === query.password && username === query.username){
+      if (query==null) // não encontrou usario
+      {
+        console.log("[INFO] Login attempted failed")
+        return false
+      }
+      else if (password === query.password && username === query.username){
         return true;
       }
+      else {// senha errada
+        console.log("[INFO] Login attempted failed")
+        return false
+      }
 
-      console.log("[INFO] Login attempted failed")
-      return false
     }
 
   static async createAdmin(username, password) {
