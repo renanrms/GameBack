@@ -9,18 +9,23 @@ class PlayersTable {
         let collection = await DbConn.getCollection("players")
 
         let entry={'_id':username,'password':passwd,'state':state,'inventory':inventory}
-        result = collection.insertOne(entry)
+        let result = collection.insertOne(entry)
         return result
     }
 
     static async getData(username){
-        let collection = await DbConn.getCollection("players")
 
+        let collection = await DbConn.getCollection("players")
         let result = await collection.findOne({'_id':username})
-        //dont leak the password
         delete result.password
 
         return result
+    }
+
+    static async getState(username){
+
+        let player = await this.getData(username)
+        return player.state
     }
 
     static async login(username,password){
@@ -32,8 +37,7 @@ class PlayersTable {
     //should not be accessible over api
     static async updateState(username,state){
         let collection = await DbConn.getCollection("players")
-
-        await collections.updateOne(
+        await collection.updateOne(
             {'_id':username},
             { $set:  {'state':state} }
         )
@@ -43,7 +47,7 @@ class PlayersTable {
     static async updateInventory(username,inventory){
         let collection = await DbConn.getCollection("players")
 
-        await collections.updateOne(
+        await collection.updateOne(
             {'_id':username},
             { $set:  {'inventory':inventory} }
         )

@@ -17,7 +17,7 @@
 <body onload="startGame()">
     
     <script>
-
+        
         console.log(register)
         var myGamePiece;
         var myObstacles = [];
@@ -88,16 +88,19 @@
             }
         }
 
-        jogador = new Player()//localStorage.getItem("jogador");
-        console.log(jogador)
+        
+
+
         
         function updateGameArea() {
             var x, height, gap, minHeight, maxHeight, minGap, maxGap;
             for (i = 0; i < myObstacles.length; i += 1) {
                 if (myGamePiece.crashWith(myObstacles[i])) {
-                    enviaPontuacao(jogador,myGameArea.frameNo);
-                    myGameArea.stop();
-                    mostraRecord(jogador);
+                    enviaPontuacao(jogador,myGameArea.frameNo).then(()=>{
+                        myGameArea.stop();
+                        mostraRecord(jogador);
+                    })
+
                     return;
                 }
             }
@@ -152,19 +155,51 @@
         }
         
 
-        
+        let jogador = new Player()
+
+        //evil stuff 
+        const urlParams = new URLSearchParams(window.location.search);
+        const username = urlParams.get('username');
+        const passwd = urlParams.get('password');
+        jogador.authenticate(username,passwd)
         //Envia pontuação para o back
-        function enviaPontuacao(jogador,pontuacao) {
-            jogador.executeEvent("addPoints", {"pointsGained":pontuacao}); //{"route":"addPoints","pointsGained":200}
+        async function enviaPontuacao(jogador,pontuacao) {
+            console.log("pnts",pontuacao)
+            await jogador.executeEvent("addPoints", {"pointsGained":pontuacao}); //{"route":"addPoints","pointsGained":200}
         }
 
         //Informa o record do Jogador
         async function mostraRecord(jogador) {
-            let record = await jogador.getState();
+            let state = await jogador.getState();
             
-            await window.alert(`Seu record é ${record}`);
+            await window.alert(`Seu record é ${state.points}`);
         }
 
+        function keyDownHandler(event) {
+            //if w
+            if (event.keyCode==87){
+                moveup();
+            }
+            //if s
+            if (event.keyCode==83){
+                movedown();
+            }
+            //if d
+            if (event.keyCode==68){
+                moveright();
+            }
+            //if a
+            if (event.keyCode==65){
+                moveleft();
+            }
+        }
+
+        function keyUpHandler(event) {
+            clearmove()
+        }
+
+        document.addEventListener('keydown', keyDownHandler, false);
+        document.addEventListener('keyup', keyUpHandler, false);
         //Exibe o nome do jogador Logado
 
         let usuario = localStorage.getItem("username");
@@ -172,21 +207,16 @@
         playerName.id = "playerName";
         playerName.innerHTML = `Jogador : ${usuario}`;
         document.body.appendChild(playerName);
+        console.log();
         
         
     </script>
     
     
     
-    <div style="text-align:center;width:480px;">
-        
-        <button onmousedown="moveup()" onmouseup="clearmove()" ontouchstart="moveup()">UP</button><br><br>
-        <button onmousedown="moveleft()" onmouseup="clearmove()" ontouchstart="moveleft()">LEFT</button>
-        <button onmousedown="moveright()" onmouseup="clearmove()" ontouchstart="moveright()">RIGHT</button><br><br>
-        <button onmousedown="movedown()" onmouseup="clearmove()" ontouchstart="movedown()">DOWN</button>
-    </div>
 
-    <p>The score will count one point for each frame you manage to "stay alive".</p>
+
+    <p>Use WASD para mover o bloco.<br>The score will count one point for each frame you manage to "stay alive".</p>
 </body>
 
 </html>

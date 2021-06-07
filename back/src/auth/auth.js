@@ -8,7 +8,8 @@ const validUntil = 3600*24*7
 function checkToken(jwtToken,roleRequired) {
     try {
         let decoded = jwt.verify(jwtToken, SIGN_SECRET);
-        let isTrue = decoded.role==roleRequired && Date.now() < decoded.validUntil
+        
+        let isTrue = Date.now() < decoded.validUntil
         let username = decoded.username
         return {
             isOk:isTrue,
@@ -16,11 +17,14 @@ function checkToken(jwtToken,roleRequired) {
         }
         
     } catch (err) {
+        console.log(err)
         return {
+            
             isOk:false,
             username:null
         }
     }
+
 }
 
 function generateToken(username,role) {

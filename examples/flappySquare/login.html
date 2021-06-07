@@ -97,7 +97,7 @@
             localStorage.setItem("token",res.state.token);
             localStorage.setItem("username",usuario);
 
-            await location.replace("./index.html"); // n ta funfando ainda
+            location.replace("./index.html?username="+usuario+"&password="+senha); // n ta funfando ainda
             return 0;
         }
 

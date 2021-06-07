@@ -2,18 +2,25 @@
 const PlayersTable = require('../mongodb/player')
 
 //api format player_id, request object
-function addPoints(player_id,request){
+async function addPoints(player_id,requestData){
 
     
-    let state = PlayersTable.getData(player_id).state
-    if ("points" in state){
-        state.points += request.pointsGained
+    let playerState = await PlayersTable.getState(player_id)
+    console.log("state",playerState)
+    console.log("player_id",player_id)
+    console.log("request",requestData)
+    if ("points" in playerState){
+        //just update new record
+        if (playerState.points < requestData.pointsGained){
+            playerState.points = requestData.pointsGained
+        }
+        
     }
     else{
-        state.points = request.pointsGained
+        playerState.points = requestData.pointsGained
     }
-
-    PlayersTable.updateState(player_id,state)
+    console.log("saving state ",playerState)
+    PlayersTable.updateState(player_id,playerState)
 
 }
 

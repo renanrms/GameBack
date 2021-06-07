@@ -1,8 +1,9 @@
-const API_BASE_URL = "https://testegameback.free.beeceptor.com" 
+const API_BASE_URL = "http://localhost:3001" 
 
 async function post(content, resource, token=null) {
   const url = new URL(`${API_BASE_URL}${resource}`);
 
+  console.log("enviando post com token",token)
   if (token == null) {
     headers = { "Content-Type": "application/json" }
   }
@@ -20,11 +21,15 @@ async function post(content, resource, token=null) {
   });
 
   let data;
+
+
   try {
     data = await response.json();
   } catch (e) {
     data = null;
   }
+
+  console.log("recived",data)
 
   if (!response.ok) {
     throw data;
@@ -39,7 +44,8 @@ async function get(resource, token) {
   headers = {
     "X-Auth-Token": token
   }
-        
+  
+  console.log("requisitando com token",token)
   const response = await fetch(url.toString(), {
     headers,
     method: 'GET',
@@ -78,16 +84,18 @@ class Player {
       })
   }
   async getState() {
-    let data = await get('/player/getState', this.token);
+    let data = await get('/player/getData', this.state.token);
     return data["state"]; 
   }
 
   async getPlayer() {
-    let data = await get('/player/getPlayer', this.token);
+    let data = await get('/player/getPlayer', this.state.token);
     return data;
   }
 
   async executeEvent(route, data) {
+    console.log("this",this)
+    console.log("this.state.token",this.state.token)
     post({route, data}, '/events', this.state.token);
   }
   
