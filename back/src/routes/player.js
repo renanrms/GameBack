@@ -34,20 +34,17 @@ router.post('/login', (req, res) => {
 })
 
 //check if admin username and password are ok
-router.post('/register', async (req, res) => {
+router.post('/register', (req, res) => {
     console.log("register hit")
     const username = req.body.username;
     const password = req.body.password;
     const state = req.body.state || {};
     const inventory = req.body.inventory || {};
     res.statusCode=200;
-    let result = {status:"ok"};
     
-    result.user = await PlayersTable.register(username,password,state,inventory)
-
-
-
-    return res.json(result)
+    PlayersTable.register(username,password,state,inventory)
+    .then((result) => return res.json({"status":"ok","player":result}))
+    .catch((error) => return res.json({"status":"server error"}))
 
 })
 
