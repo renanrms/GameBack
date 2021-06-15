@@ -93,6 +93,12 @@ class Player {
     return data;
   }
 
+  async getRule(ruleName) {
+    let data = await get(`/rules/returnOneRule?name=${ruleName}`, this.state.token);
+    data = data.content;
+    return data;
+  }
+
   async executeEvent(route, data) {
     console.log("this",this)
     console.log("this.state.token",this.state.token)

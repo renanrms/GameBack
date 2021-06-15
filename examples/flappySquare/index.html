@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
-
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta charset="UTF-8">
-    <script src="../../plugin/gameback.js"></script>
-    <style>
+    
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta charset="UTF-8">
+        <script src="../../plugin/gameback.js"></script>
+        <style>
         canvas {
             border: 1px solid #d3d3d3;
             background-color: #7b178d;
@@ -17,19 +17,21 @@
 <body onload="startGame()">
     
     <script>
-        
+                
         console.log(register)
         var myGamePiece;
         var myObstacles = [];
         var myScore;
-
-
-        function startGame() {
+        var gameSpeed = 1;
+        
+        
+        async function startGame() {
             myGamePiece = new component(30, 30, "yellow", 10, 120);
             myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+            gameSpeed = Number(await jogador.getRule('gameSpeed'));
             myGameArea.start();
         }
-
+        
         var myGameArea = {
             canvas: document.createElement("canvas"),
             start: function () {
@@ -127,7 +129,7 @@
                 myObstacles.push(new component(10, x - height - gap, "blue", x, height + gap));
             }
             for (i = 0; i < myObstacles.length; i += 1) {
-                myObstacles[i].speedX = -1;
+                myObstacles[i].speedX = -gameSpeed;
                 myObstacles[i].newPos();
                 myObstacles[i].update();
             }
@@ -163,14 +165,13 @@
             myGamePiece.speedY = 0;
         }
         
+        username = localStorage.getItem("username");
+        password = localStorage.getItem("password");
 
         let jogador = new Player()
+        jogador.authenticate(username, password);
+        console.log(jogador)
 
-        //evil stuff 
-        const urlParams = new URLSearchParams(window.location.search);
-        const username = urlParams.get('username');
-        const passwd = urlParams.get('password');
-        jogador.authenticate(username,passwd)
         //Envia pontuação para o back
         async function enviaPontuacao(jogador,pontuacao) {
             console.log("pnts",pontuacao)
@@ -209,12 +210,11 @@
 
         document.addEventListener('keydown', keyDownHandler, false);
         document.addEventListener('keyup', keyUpHandler, false);
+        
         //Exibe o nome do jogador Logado
-
-        let usuario = localStorage.getItem("username");
         var playerName = document.createElement("P");
         playerName.id = "playerName";
-        playerName.innerHTML = `Jogador : ${usuario}`;
+        playerName.innerHTML = `Jogador : ${username}`;
         document.body.appendChild(playerName);
         console.log();
         
