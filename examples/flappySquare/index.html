@@ -23,12 +23,14 @@
         var myObstacles = [];
         var myScore;
         var gameSpeed = 1;
+        var teletransportBonus = 0;
         
         
         async function startGame() {
             myGamePiece = new component(30, 30, "yellow", 10, 120);
             myScore = new component("30px", "Consolas", "black", 280, 40, "text");
             gameSpeed = Number(await jogador.getRule('gameSpeed'));
+            teletransportBonus = Number(await jogador.getRule('teletransportBonus'));
             myGameArea.start();
         }
         
@@ -70,8 +72,10 @@
                 }
             }
             this.newPos = function () {
-                if(this.x > myGameArea.canvas.width)
+                if(this.x > myGameArea.canvas.width) {
+                    myGameArea.frameNo += teletransportBonus;
                     this.x = 0;
+                }
                 if(this.y <0)
                     this.y = myGameArea.canvas.height;
                 if(this.y > myGameArea.canvas.height)
