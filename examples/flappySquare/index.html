@@ -68,6 +68,13 @@
                 }
             }
             this.newPos = function () {
+                if(this.x > myGameArea.canvas.width)
+                    this.x = 0;
+                if(this.y <0)
+                    this.y = myGameArea.canvas.height;
+                if(this.y > myGameArea.canvas.height)
+                    this.y = 0;
+                
                 this.x += this.speedX;
                 this.y += this.speedY;
             }
@@ -81,9 +88,11 @@
                 var othertop = otherobj.y;
                 var otherbottom = otherobj.y + (otherobj.height);
                 var crash = true;
-                if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+                if ((myleft < 50) || (mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
                     crash = false;
                 }
+                if (myleft < 0)
+                    crash = true;
                 return crash;
             }
         }
