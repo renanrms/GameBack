@@ -22,11 +22,13 @@
         var myGamePiece;
         var myObstacles = [];
         var myScore;
+        var gameSpeed = 1;
         
         
-        function startGame() {
+        async function startGame() {
             myGamePiece = new component(30, 30, "yellow", 10, 120);
             myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+            gameSpeed = Number(await jogador.getRule('gameSpeed'));
             myGameArea.start();
         }
         
@@ -118,7 +120,7 @@
                 myObstacles.push(new component(10, x - height - gap, "blue", x, height + gap));
             }
             for (i = 0; i < myObstacles.length; i += 1) {
-                myObstacles[i].speedX = -1;
+                myObstacles[i].speedX = -gameSpeed;
                 myObstacles[i].newPos();
                 myObstacles[i].update();
             }
