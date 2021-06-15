@@ -43,8 +43,8 @@ router.post('/register', (req, res) => {
     res.statusCode=200;
     
     PlayersTable.register(username,password,state,inventory)
-    .then((result) => return res.json({"status":"ok","player":result}))
-    .catch((error) => return res.json({"status":"server error"}))
+    .then((result) => res.json({"status":"ok","player":result}))
+    .catch((error) => res.json({"status":"server error"}))
 
 })
 
