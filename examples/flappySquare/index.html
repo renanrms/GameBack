@@ -37,8 +37,8 @@
         var myGameArea = {
             canvas: document.createElement("canvas"),
             start: function () {
-                this.canvas.width = 480;
-                this.canvas.height = 270;
+                this.canvas.width = 960;
+                this.canvas.height = 540;
                 this.context = this.canvas.getContext("2d");
                 document.body.insertBefore(this.canvas, document.body.childNodes[0]);
                 this.frameNo = 0;
@@ -62,6 +62,13 @@
             this.y = y;
             this.update = function () {
                 ctx = myGameArea.context;
+                /*
+                let canvasRed = (180 + myGameArea.frameNo) % 255;
+                let canvasGreen = (80 + myGameArea.frameNo) % 255;
+                let canvasBlue = (240 + myGameArea.frameNo) % 255;
+                ctx.fillStyle = rgb(canvasRed,canvasGreen,canvasBlue);
+                ctx.fillRect(0, 0, myGameArea.canvas.width, myGameArea.canvas.height);
+                */
                 if (this.type == "text") {
                     ctx.font = this.width + " " + this.height;
                     ctx.fillStyle = color;
